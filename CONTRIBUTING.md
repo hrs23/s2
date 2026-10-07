@@ -20,6 +20,10 @@ pnpm test:e2e   # see e2e/README.md
 
 Hooks: pre-commit runs `pnpm lint`, pre-push runs `pnpm test`.
 
+## Migrations are append-only
+
+Never edit a released migration; add a new one with `pnpm db:new NAME`. Existing installs only run new files on upgrade.
+
 ## Never `TRUNCATE file_revisions`
 
 Its DELETE trigger queues storage GC; `TRUNCATE` skips it and orphans blobs. Use `DELETE FROM file_nodes WHERE ...`.
