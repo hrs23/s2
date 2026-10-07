@@ -28,6 +28,9 @@
   <path d="M50 208 C50 330 200 346 290 346" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
   <path d="M50 208 C50 380 200 396 290 396" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
 
+  <path d="M50 124 V156" fill="none" stroke="#9ca3af" stroke-width="2"/>
+  <rect x="14" y="100" width="130" height="24" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="79" y="116.500" font-size="12.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">me: Read + Write</text>
   <circle cx="50" cy="182" r="26" fill="#111827"/>
   <text x="50" y="188" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/</text>
 

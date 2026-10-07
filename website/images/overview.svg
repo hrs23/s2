@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 430" width="900" height="430" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
   <rect width="900" height="430" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
 
-  <text x="440" y="24" font-size="12" fill="#6b7280">Your files: you can open everything. Others get only the access shown.</text>
-
   <g fill="none" stroke="#9ca3af" stroke-width="2">
     <path d="M76 182 C183 182 183 62 290 62"/>
     <path d="M76 182 C183 182 183 132 290 132"/>
@@ -12,6 +10,9 @@
   <path d="M50 208 C50 330 200 346 290 346" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
   <path d="M50 208 C50 380 200 396 290 396" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
 
+  <path d="M50 124 V156" fill="none" stroke="#9ca3af" stroke-width="2"/>
+  <rect x="14" y="100" width="130" height="24" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="79" y="116.500" font-size="12.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">me: Read + Write</text>
   <circle cx="50" cy="182" r="26" fill="#111827"/>
   <text x="50" y="188" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/</text>
 
