@@ -4,7 +4,7 @@
 
 Email + password; passkey and TOTP are optional. No social login, no email-change UI. The `pnpm user` CLI creates users and resets passwords.
 
-Sign-up, passkey, TOTP, and email flags: [README](../README.md#self-host).
+Sign-up, passkey, TOTP, and email flags: [README](../README.md#getting-started).
 
 - Without `EMAIL_ENABLED`, signup does not prove email ownership.
 - New users get all limits at 0 (unlimited): [D06-limits.md](D06-limits.md).

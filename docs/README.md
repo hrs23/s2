@@ -1,6 +1,6 @@
 # S2 docs
 
-Architecture and contracts that code alone does not make obvious. Schema lives in `migrations/20260101000000_init.sql`, HTTP contracts in `openapi.yaml`, deployment in the [README](../README.md#self-host).
+Architecture and contracts that code alone does not make obvious. Schema lives in `migrations/20260101000000_init.sql`, HTTP contracts in `openapi.yaml`, deployment in the [README](../README.md#getting-started).
 
 | Doc | Answers |
 |---|---|

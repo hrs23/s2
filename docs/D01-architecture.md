@@ -19,4 +19,4 @@
 
 ## Runtime
 
-Node app + PostgreSQL + filesystem ([README](../README.md#self-host)). Filesystem is the only storage backend. Migrations run before serving. Reverse proxy, TLS, and DNS are the operator's job. Local development: [CONTRIBUTING.md](../CONTRIBUTING.md).
+Node app + PostgreSQL + filesystem ([README](../README.md#getting-started)). Filesystem is the only storage backend. Migrations run before serving. Reverse proxy, TLS, and DNS are the operator's job. Local development: [CONTRIBUTING.md](../CONTRIBUTING.md).

@@ -7,7 +7,7 @@ Files are stored as plaintext at rest. There is no S3-compatible API.
 
 [Docs](docs/README.md) | [Contributing](CONTRIBUTING.md) | [MIT License](LICENSE)
 
-## Self-host
+## Getting started
 
 Two containers (app, Postgres) from `ghcr.io/hrs23/s2`. The app listens on `127.0.0.1:${S2_PORT:-3000}`; put a TLS proxy in front.
 
