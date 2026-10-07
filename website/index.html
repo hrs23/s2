@@ -31,7 +31,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Self-hosted file storage</p>
           <h1>Your data.<br>Your server.<br><em>Only the access you grant.</em></h1>
-          <p class="lede">S2 stores your files on a server you run, with permissions per folder. Give each person, app, or AI agent exactly the access it needs—and nothing more.</p>
+          <p class="lede">S2 stores your files on a server you run, with permissions per folder for each person, app, and AI agent.</p>
           <div class="actions">
             <a class="button primary" href="https://github.com/hrs23/s2#getting-started">Self-host S2 <span aria-hidden="true">→</span></a>
             <a class="button" href="https://github.com/hrs23/s2">View on GitHub</a>
@@ -50,7 +50,7 @@
           <h2>Decide exactly<br>how much to share.</h2>
         </div>
         <div class="scope-copy">
-          <p>Weekly dinners, with your own AI agent. Kids add food wishes and you add fridge notes. The agent reads both and writes the plan and the shopping list. The family reads the plan, and the shopper reads the list for seven days. The agent cannot open <code>bank/</code> or <code>passport/</code>.</p>
+          <p>Weekly dinners, with your own AI agent. Kids add food wishes and you add fridge notes. The agent reads both and writes the plan and the shopping list. The family reads the plan, and the shopper reads the list for seven days.</p>
           <div class="scope-grid" role="list" aria-label="More examples">
             <div role="listitem"><strong>Monthly budget</strong><span>An AI agent reads <code>receipts/</code> and writes <code>summary/</code>. Your partner reads only the summary.</span></div>
             <div role="listitem"><strong>Kids' albums</strong><span>The family adds photos and an AI agent builds albums. Grandparents read only the albums.</span></div>
@@ -59,7 +59,7 @@
         </div>
         <figure class="flow">
           <img src="images/overview.svg" width="660" height="404" alt="A folder tree: wishes, fridge, plan and shopping, each with the tokens that can open it (pencil: read and write, eye: read only); bank and passport are not shared">
-          <figcaption>Each badge is one token from the list above. A pencil means read and write; an eye means read only.</figcaption>
+          <figcaption>Pencil: read and write. Eye: read only.</figcaption>
         </figure>
       </section>
 
@@ -77,7 +77,7 @@
           <article>
             <span class="card-number">02</span>
             <h3>Files & scripts</h3>
-            <p>Mount WebDAV in Finder or Windows Explorer, or call S2 from a script with an API token that has an expiry date.</p>
+            <p>Mount WebDAV in Finder or Windows Explorer, or call S2 from a script with an API token.</p>
           </article>
           <article>
             <span class="card-number">03</span>
@@ -90,7 +90,7 @@
       <section class="self-host">
         <p class="eyebrow">Keep the keys</p>
         <h2>Run it where<br>your data lives.</h2>
-        <p>S2 is built for self-hosting with Docker Compose. PostgreSQL stores metadata; file chunks stay on storage you control. Files are stored as plaintext at rest, and there is no S3-compatible API.</p>
+        <p>S2 is built for self-hosting with Docker Compose. PostgreSQL stores metadata; file chunks stay on storage you control. Files are stored as plaintext at rest.</p>
         <a class="button light" href="https://github.com/hrs23/s2#getting-started">Read the setup guide <span aria-hidden="true">→</span></a>
       </section>
     </main>

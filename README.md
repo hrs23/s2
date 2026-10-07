@@ -4,7 +4,7 @@
 
 Self-hosted file storage with folder permissions for people, apps, and AI agents.
 
-Give each one only the folders it needs: Read or Read + Write per path, with an expiry date. Use it from the web UI, REST, WebDAV, and MCP. Files are stored as plaintext at rest, and there is no S3-compatible API.
+Give each one only the folders it needs: Read or Read + Write per path, with an expiry date. Use it from the web UI, REST, WebDAV, and MCP. Files are stored as plaintext at rest.
 
 [Website](https://hrs23.github.io/s2/) | [Docs](docs/README.md) | [Contributing](CONTRIBUTING.md) | [MIT License](LICENSE)
 
