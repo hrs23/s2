@@ -4,20 +4,16 @@
   <text x="440" y="24" font-size="12" fill="#6b7280">Your files: you can open everything. Others get only the access shown.</text>
 
   <g fill="none" stroke="#9ca3af" stroke-width="2">
-    <path d="M76 182 H120"/>
-    <path d="M210 182 C250 182 250 62 290 62"/>
-    <path d="M210 182 C250 182 250 132 290 132"/>
-    <path d="M210 182 C250 182 250 202 290 202"/>
-    <path d="M210 182 C250 182 250 272 290 272"/>
+    <path d="M76 182 C183 182 183 62 290 62"/>
+    <path d="M76 182 C183 182 183 132 290 132"/>
+    <path d="M76 182 C183 182 183 202 290 202"/>
+    <path d="M76 182 C183 182 183 272 290 272"/>
   </g>
   <path d="M50 208 C50 330 200 346 290 346" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
   <path d="M50 208 C50 380 200 396 290 396" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="6 5"/>
 
   <circle cx="50" cy="182" r="26" fill="#111827"/>
   <text x="50" y="188" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">/</text>
-
-  <rect x="120" y="157" width="90" height="50" rx="10" fill="#f9fafb" stroke="#6b7280" stroke-width="1.5"/>
-  <text x="165" y="187" font-size="15" font-weight="600" fill="#111827" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">meals/</text>
 
   <g fill="#ffffff" stroke="#6b7280" stroke-width="1.5">
     <rect x="290" y="40" width="120" height="44" rx="8"/>
@@ -56,13 +52,13 @@
     <rect x="440" y="382" width="92" height="28" rx="14" fill="#f3f4f6" stroke="#9ca3af"/>
   </g>
   <g font-size="12.5" font-weight="600" text-anchor="middle">
-    <text x="511.500" y="66" fill="#1d4ed8">Kids: Read + Write</text>
-    <text x="653" y="66" fill="#0f766e">AI agent: Read</text>
-    <text x="498" y="136" fill="#0f766e">AI agent: Read</text>
-    <text x="524.500" y="206" fill="#1d4ed8">AI agent: Read + Write</text>
-    <text x="672.500" y="206" fill="#0f766e">Family: Read</text>
-    <text x="524.500" y="276" fill="#1d4ed8">AI agent: Read + Write</text>
-    <text x="702.500" y="276" fill="#0f766e">Shopper: Read, 7 days</text>
+    <text x="511.500" y="66" fill="#1d4ed8">kids: Read + Write</text>
+    <text x="653" y="66" fill="#0f766e">ai-agent: Read</text>
+    <text x="498" y="136" fill="#0f766e">ai-agent: Read</text>
+    <text x="524.500" y="206" fill="#1d4ed8">ai-agent: Read + Write</text>
+    <text x="672.500" y="206" fill="#0f766e">family: Read</text>
+    <text x="524.500" y="276" fill="#1d4ed8">ai-agent: Read + Write</text>
+    <text x="702.500" y="276" fill="#0f766e">shopper: Read, 7 days</text>
     <text x="486" y="350" fill="#6b7280">Not shared</text>
     <text x="486" y="400" fill="#6b7280">Not shared</text>
   </g>
