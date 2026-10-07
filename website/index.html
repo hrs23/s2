@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Self-hosted, scoped storage for personal data and AI agents.">
+    <meta name="theme-color" content="#f5f2eb">
+    <title>S2 — Self-hosted scoped storage</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="S2 home">S2</a>
+      <nav aria-label="Primary navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#interfaces">Interfaces</a>
+        <a class="nav-github" href="https://github.com/hrs23/s2">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Self-hosted scoped storage</p>
+          <h1>Your data.<br>Your server.<br><em>Only the access you grant.</em></h1>
+          <p class="lede">S2 stores personal files behind path-scoped tokens. Give each app, agent, or device exactly the access it needs—and nothing more.</p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/hrs23/s2/tree/main/selfhost">Self-host S2 <span aria-hidden="true">→</span></a>
+            <a class="button" href="https://github.com/hrs23/s2">View on GitHub</a>
+          </div>
+        </div>
+
+        <div class="token-window" aria-label="Example scoped access tokens">
+          <div class="window-bar"><span></span><span></span><span></span><strong>ACCESS TOKENS</strong></div>
+          <article class="token">
+            <div><span class="label">TOKEN</span><code>workout-app</code></div>
+            <div><span class="label">PATH</span><code>/fitness/workout/</code></div>
+            <div><span class="label">ACCESS</span><span class="permissions"><span class="pill">read</span><span class="pill write">write</span></span></div>
+          </article>
+          <article class="token">
+            <div><span class="label">TOKEN</span><code>trainer-ai</code></div>
+            <div><span class="label">PATH</span><code>/fitness/</code></div>
+            <div><span class="label">ACCESS</span><span class="permissions"><span class="pill">read</span></span></div>
+          </article>
+          <div class="scope-note"><span aria-hidden="true">↳</span> Each token stops at its boundary.</div>
+        </div>
+      </section>
+
+      <section class="scope" id="how-it-works">
+        <div class="section-heading">
+          <p class="eyebrow">Least privilege, by path</p>
+          <h2>Decide exactly<br>how much to share.</h2>
+        </div>
+        <div class="scope-copy">
+          <p>Issue one token per job. A script can write health data without reading it. An AI trainer can read fitness files without reaching anything else. Rotate or revoke access whenever you need.</p>
+          <div class="scope-grid" role="list" aria-label="Example permissions">
+            <div role="listitem"><strong>Workout tracker</strong><code>/fitness/workout/</code><span>read · write</span></div>
+            <div role="listitem"><strong>Health importer</strong><code>/fitness/health/</code><span>write</span></div>
+            <div role="listitem"><strong>Trainer AI</strong><code>/fitness/</code><span>read</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="interfaces" id="interfaces">
+        <div class="section-heading">
+          <p class="eyebrow">One store, familiar tools</p>
+          <h2>Connect without<br>giving everything away.</h2>
+        </div>
+        <div class="cards">
+          <article>
+            <span class="card-number">01</span>
+            <h3>AI agents</h3>
+            <p>Connect ChatGPT, Claude, and other MCP clients. You approve each connection in the browser and pick the folder and permission it gets.</p>
+          </article>
+          <article>
+            <span class="card-number">02</span>
+            <h3>Files & editors</h3>
+            <p>Use WebDAV from Finder, Explorer, Obsidian, and other tools that already work with files.</p>
+          </article>
+          <article>
+            <span class="card-number">03</span>
+            <h3>Your software</h3>
+            <p>Build integrations with the REST API and OAuth. The same permissions apply at every interface.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="self-host">
+        <p class="eyebrow">Keep the keys</p>
+        <h2>Run it where<br>your data lives.</h2>
+        <p>S2 is built for self-hosting with Docker Compose. PostgreSQL stores metadata; file chunks stay on storage you control.</p>
+        <a class="button light" href="https://github.com/hrs23/s2/tree/main/selfhost">Read the self-host guide <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="./">S2</a>
+      <p class="footer-copy">Self-hosted scoped storage for personal data.</p>
+      <a href="https://github.com/hrs23/s2">GitHub</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "title": "Trash | S2"
+  },
+  "loading": "Loading...",
+  "empty": "Trash is empty",
+  "columns": {
+    "name": "Name",
+    "size": "Size",
+    "purgeIn": "Auto-delete"
+  },
+  "daysRemaining_one": "{{count}} day left",
+  "daysRemaining_other": "{{count}} days left",
+  "restore": "Restore",
+  "restoring": "Restoring...",
+  "purge": "Delete permanently",
+  "purging": "Deleting...",
+  "purgeAll": "Empty trash",
+  "purgingAll": "Emptying...",
+  "confirmPurge": "Permanently delete \"{{name}}\"? This cannot be undone.",
+  "confirmPurgeAll": "Permanently delete all items in trash? This cannot be undone."
+}

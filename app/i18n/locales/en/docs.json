@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "title": "Documentation | S2",
+    "gettingStartedTitle": "Getting Started | S2 Docs"
+  },
+  "nav": {
+    "gettingStarted": "Getting Started",
+    "restApi": "REST API",
+    "webdav": "WebDAV",
+    "mcp": "MCP"
+  },
+  "pager": {
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "index": {
+    "title": "S2 Documentation",
+    "subtitle": "S2 (Scoped Storage) is a file storage service. Access your files via the Web UI, REST API, MCP, or WebDAV.",
+    "gettingStarted": {
+      "title": "Getting Started",
+      "step1": {
+        "title": "1. Create an Account",
+        "text": "Ask your S2 operator for an account, or sign up while registration is enabled from the",
+        "link": "sign-in page"
+      },
+      "step2": {
+        "title": "2. Upload Files",
+        "text": "After signing in, you can upload files from \"My Files\". The Web UI supports creating, editing, and deleting files."
+      },
+      "step3": {
+        "title": "3. Connect with External Tools",
+        "text1": "For more advanced usage, connect via the",
+        "text2": "To connect, create an API token and issue credentials on the",
+        "linkRest": "REST API",
+        "linkMcp": "MCP",
+        "linkWebdav": "WebDAV",
+        "linkTokens": "API Tokens page"
+      }
+    },
+    "accessMethods": {
+      "title": "Choose an Access Method",
+      "subtitle": "S2 offers several ways to access your files. Choose the one that best fits your needs.",
+      "rest": {
+        "title": "REST API",
+        "desc": "A simple HTTP API for uploading, downloading, and deleting files. Ideal for integrating S2 into your own apps or scripts.",
+        "recommended": "Recommended for: developers building custom integrations"
+      },
+      "webdav": {
+        "title": "WebDAV",
+        "desc": "Open S2 as a regular folder in macOS Finder or Windows Explorer. No dedicated app required — works with built-in OS features.",
+        "recommended": "Recommended for: non-engineers, anyone who prefers drag-and-drop file management"
+      },
+      "mcp": {
+        "title": "Remote MCP Server",
+        "desc": "Connect ChatGPT or Claude to a folder in S2 with read or read-and-write permission.",
+        "recommended": "Recommended for: connecting from the ChatGPT or Claude hosted UI (web / mobile)"
+      }
+    },
+    "aiAgents": {
+      "title": "For AI Agents",
+      "subtitle": "To feed this documentation into an AI agent or LLM, use the following endpoints.",
+      "llmsTxt": "Complete API documentation for AI agents (can be fed directly into an LLM context)"
+    }
+  },
+  "webdav": {
+    "meta": {
+      "title": "WebDAV | S2 Docs"
+    },
+    "title": "WebDAV",
+    "subtitle": "S2 supports the WebDAV protocol. Connect from macOS Finder, Windows Explorer, or any WebDAV client.",
+    "connection": {
+      "title": "Connection Details",
+      "text": "Files are scoped to your token's base path. The root directory (<code>/dav/</code>) shows only the files within your token's scope."
+    },
+    "macos": {
+      "title": "macOS Finder",
+      "step1": "Finder → menu bar \"Go\" → \"Connect to Server\" (⌘K)",
+      "step2": "Enter <code>https://s2.example.com/dav</code> as the URL",
+      "step3": "Username: <code>s2</code> (any value works), password: your <code>s2_</code> token"
+    },
+    "windows": {
+      "title": "Windows Explorer",
+      "step1": "Explorer → \"Map network drive\"",
+      "step2": "Enter <code>https://s2.example.com/dav</code> as the folder",
+      "step3": "Username: <code>s2</code> (any value works), password: your <code>s2_</code> token"
+    }
+  },
+  "rest": {
+    "meta": {
+      "title": "REST API | S2 Docs"
+    },
+    "title": "REST API",
+    "subtitle": "An HTTP API over your files. Bearer-token auth.",
+    "whenToUse": {
+      "title": "When to use",
+      "body": "Use this from scripts, CI, servers, or your own apps."
+    },
+    "connection": {
+      "title": "Connection",
+      "text": "Issue a token on the <code>API Tokens</code> page. Paths are relative to the token's base path."
+    },
+    "examples": {
+      "title": "Quick examples"
+    },
+    "spec": {
+      "title": "Full spec",
+      "body": "<a>/openapi.yaml</a>"
+    }
+  },
+  "mcp": {
+    "meta": {
+      "title": "Remote MCP Server | S2 Docs"
+    },
+    "title": "Remote MCP Server",
+    "subtitle": "Connect ChatGPT or Claude to S2 — folder-scoped, with the permission you grant.",
+    "whenToUse": {
+      "title": "When to use",
+      "body": "Use this from ChatGPT or Claude's hosted UI. If you can run a shell, REST API is simpler."
+    },
+    "endpoint": {
+      "title": "Endpoint"
+    },
+    "clients": {
+      "title": "Connect from ChatGPT or Claude",
+      "subtitle": "Paste URL → approve in browser → pick folder + permission.",
+      "chatgpt": {
+        "title": "ChatGPT",
+        "step1": "<b>Settings → Apps & Connectors → Add custom</b>",
+        "step2": "Paste the MCP URL, press <b>Connect</b>",
+        "step3": "Browser opens the S2 consent — pick folder + permission, <b>Allow</b>",
+        "note": "Plus / Team / Business."
+      },
+      "claudeAi": {
+        "title": "Claude (claude.ai)",
+        "step1": "<b>Settings → Connectors → Add custom connector</b>",
+        "step2": "Paste the MCP URL, press <b>Add</b>",
+        "step3": "Approve in the browser when consent opens",
+        "note": "Pro / Team / Enterprise."
+      }
+    },
+    "tools": {
+      "title": "What the AI can do",
+      "col": {
+        "tool": "Tool",
+        "permission": "Needs",
+        "what": "What it does"
+      },
+      "list": {
+        "permission": "Read",
+        "what": "List a folder"
+      },
+      "read_text": {
+        "permission": "Read",
+        "what": "Read a text file"
+      },
+      "read_binary": {
+        "permission": "Read",
+        "what": "Read a binary file"
+      },
+      "stat": {
+        "permission": "Read",
+        "what": "Get a file's metadata"
+      },
+      "write": {
+        "permission": "Read & Write",
+        "what": "Create or overwrite a text file"
+      },
+      "write_binary": {
+        "permission": "Read & Write",
+        "what": "Create or overwrite a binary file"
+      },
+      "mkdir": {
+        "permission": "Read & Write",
+        "what": "Create a folder"
+      },
+      "move": {
+        "permission": "Read & Write",
+        "what": "Rename or move a file"
+      },
+      "delete": {
+        "permission": "Read & Write",
+        "what": "Delete a file (recoverable from Trash)"
+      }
+    },
+    "manage": {
+      "title": "Manage & disconnect",
+      "body": "Open <a>Connections</a> to see what's connected. <b>Disconnect</b> invalidates the token immediately."
+    },
+    "troubleshooting": {
+      "title": "Troubleshooting",
+      "checkBeforeAllow": {
+        "q": "Should I trust the consent screen?",
+        "a": "S2 doesn't review connecting apps — check the app name and redirect URL on the consent screen and only continue if you started the connection."
+      },
+      "connectionFailed": {
+        "q": "Connection failed after Allow",
+        "a": "Check you're signed into S2 in the same browser and that third-party cookies aren't blocked."
+      },
+      "outsideScope": {
+        "q": "AI got a 403 / \"path outside scope\"",
+        "a": "It tried to access a path outside the folder you chose. Tell it to stay inside, or disconnect and reconnect with a wider folder."
+      },
+      "tokenExpired": {
+        "q": "Suddenly asked to re-authenticate",
+        "a": "Refresh tokens last 30 days. You'll also see this if the connection was disconnected."
+      }
+    }
+  }
+}

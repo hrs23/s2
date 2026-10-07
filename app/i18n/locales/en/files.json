@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "My Files | S2"
+  },
+  "loading": "Loading...",
+  "tabs": {
+    "files": "Files",
+    "trash": "Trash"
+  },
+  "empty": {
+    "title": "No files"
+  },
+  "sort": "Sort:",
+  "columns": {
+    "name": "Name",
+    "size": "Size",
+    "date": "Date",
+    "access": "Access"
+  },
+  "actions": {
+    "download": "Download",
+    "delete": "Delete",
+    "rename": "Rename",
+    "move": "Move",
+    "cancel": "Cancel",
+    "dismiss": "Dismiss",
+    "edit": "Edit",
+    "close": "Close",
+    "upload": "Upload"
+  },
+  "dropHere": "Drop here to upload",
+  "items": "{{count}} items",
+  "breadcrumbRoot": "My Files",
+  "buttons": {
+    "folder": "+ Folder",
+    "text": "+ Text",
+    "upload": "Upload"
+  },
+  "newTextFile": {
+    "title": "New Text File",
+    "fileName": "File name",
+    "fileNamePlaceholder": "e.g. memo.txt",
+    "content": "Content",
+    "contentPlaceholder": "Enter text...",
+    "saving": "Saving...",
+    "save": "Save"
+  },
+  "uploadFile": {
+    "title": "Upload File",
+    "uploading": "Uploading..."
+  },
+  "newFolder": {
+    "title": "New Folder",
+    "folderName": "Folder name",
+    "folderNamePlaceholder": "e.g. reports",
+    "creating": "Creating...",
+    "create": "Create"
+  },
+  "rename": {
+    "fileTitle": "Rename file",
+    "folderTitle": "Rename folder",
+    "newName": "New name",
+    "submit": "Rename",
+    "submitting": "Renaming..."
+  },
+  "move": {
+    "fileTitle": "Move file",
+    "folderTitle": "Move folder",
+    "currentPath": "Current path",
+    "destFolder": "Destination folder",
+    "placeholder": "e.g. archive/2025/",
+    "submit": "Move",
+    "submitting": "Moving…",
+    "errors": {
+      "nullByte": "Path cannot contain null bytes",
+      "reserved": "Path cannot contain '.' or '..'"
+    }
+  },
+  "viewFile": {
+    "loading": "Loading...",
+    "failedToLoad": "Failed to load preview ({{error}})",
+    "cannotPreview": "This file cannot be previewed. Use download to view it.",
+    "tooLargeForPreview": "File is too large to preview ({{limit}} MB max). Download to view.",
+    "saving": "Saving...",
+    "save": "Save"
+  },
+  "versions": {
+    "title": "Version history",
+    "none": "No previous versions",
+    "current": "Current",
+    "restore": "Restore",
+    "restoring": "Restoring...",
+    "restoreUnavailable": "This revision is no longer available. It may have been overwritten by recent edits."
+  },
+  "uploadProgress": {
+    "status": "{{current}} / {{total}} uploading"
+  },
+  "error": "An error occurred"
+}

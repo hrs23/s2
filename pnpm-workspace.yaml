@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+  - sharp
+minimumReleaseAge: 10080
+blockExoticSubdeps: true
+minimumReleaseAgeExclude:
+  - dbmate
+  - "@dbmate/*"

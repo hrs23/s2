@@ -1,0 +1,27 @@
+FROM node:20-bookworm
+
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
+WORKDIR /app
+
+# Install deps (cached layer). See Dockerfile.app for why --ignore-scripts.
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+# Install Chromium to a world-accessible path so the non-root node user can use it
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN pnpm exec playwright install chromium --with-deps && \
+    chmod -R a+rX /ms-playwright
+
+COPY . .
+
+# Hand /app over to the node user before switching
+RUN chown -R node:node /app
+
+USER node
+
+# ENTRYPOINT (not CMD) so that extra args from `docker compose run test ...`
+# append to the playwright invocation instead of replacing it. Each call site
+# (npm scripts / ad-hoc) is responsible for passing --config=...; this keeps
+# the responsibility consistent across webui/api/visual.
+ENTRYPOINT ["pnpm", "exec", "playwright", "test"]

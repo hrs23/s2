@@ -1,0 +1,20 @@
+{
+  "dashboard": {
+    "myFiles": "My Files",
+    "apiTokens": "API Tokens",
+    "connections": "Connections",
+    "settings": "Settings",
+    "docs": "Docs",
+    "storageUsage": "{{used}} of {{limit}} used",
+    "storageUsageAvailable": "{{used}} used · {{available}} available",
+    "storageUsed": "{{used}} used",
+    "logOut": "Log out"
+  },
+  "error": {
+    "notFoundTitle": "Page not found",
+    "notFoundMessage": "The page you're looking for doesn't exist or has been moved.",
+    "genericTitle": "Something went wrong",
+    "genericMessage": "An unexpected error occurred. Please try again.",
+    "backHome": "Back to home"
+  }
+}

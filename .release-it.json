@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "before:init": "pnpm check"
+  },
+  "git": {
+    "requireBranch": "main",
+    "commitMessage": "chore: release v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "S2 v${version}"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "S2 v${version}",
+    "autoGenerate": true,
+    "tokenRef": "GH_TOKEN"
+  }
+}

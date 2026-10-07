@@ -1,0 +1,22 @@
+{
+  "access": {
+    "read": "Read",
+    "write": "Read + Write"
+  },
+  "pathBrowser": {
+    "loading": "Loading...",
+    "empty": "Empty"
+  },
+  "editor": {
+    "addPath": "+ Add path",
+    "allPaths": "All paths accessible.",
+    "limitPaths": "+ Limit to specific paths",
+    "pathPlaceholder": "e.g. photos",
+    "browseAria": "Browse files",
+    "removeAria": "Remove"
+  },
+  "errors": {
+    "duplicatePaths": "Duplicate paths are not allowed. Each access path must be unique.",
+    "minRows": "Add at least one path."
+  }
+}

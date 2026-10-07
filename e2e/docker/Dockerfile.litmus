@@ -1,0 +1,15 @@
+FROM node:20-bookworm-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends litmus nginx && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
+WORKDIR /app
+
+# Install deps (cached layer). See Dockerfile.app for why --ignore-scripts.
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+COPY . .
+
+CMD ["/app/e2e/docker/litmus-entrypoint.sh"]

@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "Settings | S2"
+  },
+  "heading": "Settings",
+  "loading": "Loading...",
+  "groups": {
+    "security": "Security",
+    "system": "System",
+    "danger": "Danger zone"
+  },
+  "system": {
+    "version": "Version"
+  },
+  "common": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "rename": "Rename"
+  },
+  "passkeys": {
+    "title": "Passkeys",
+    "register": "Add a passkey",
+    "registering": "Waiting for your authenticator…",
+    "empty": "You haven't added any passkeys yet.",
+    "createdAt": "Added {{when}}",
+    "renamePrompt": "Rename passkey",
+    "deleteConfirm": "Delete this passkey? You won't be able to use it to sign in anymore.",
+    "errors": {
+      "registration_failed": "Could not register the passkey. Please try again.",
+      "rename_failed": "Could not rename the passkey.",
+      "delete_failed": "Could not delete the passkey.",
+      "list_failed": "Could not load passkeys.",
+      "unsupported": "This browser doesn't support passkeys."
+    }
+  },
+  "password": {
+    "title": "Password",
+    "currentLabel": "Current password",
+    "newLabel": "New password",
+    "submit": "Update password",
+    "success": "Password updated.",
+    "errors": {
+      "invalid_credentials": "Current password is incorrect.",
+      "weak_password": "Pick a stronger password (at least 8 characters).",
+      "generic": "Could not update password."
+    }
+  },
+  "twoFactor": {
+    "title": "Two-factor authentication",
+    "statusEnabled": "Enabled",
+    "statusDisabled": "Not enabled",
+    "enable": "Enable",
+    "disableButton": "Disable",
+    "regenerateButton": "Regenerate recovery codes",
+    "step1": {
+      "heading": "Confirm it's you",
+      "passwordLabel": "Password",
+      "next": "Next"
+    },
+    "step2": {
+      "heading": "Scan the QR code",
+      "secretLabel": "Or enter this secret manually",
+      "codeLabel": "6-digit code",
+      "verify": "Verify"
+    },
+    "step3": {
+      "heading": "Save your recovery codes",
+      "description": "Store these somewhere safe. Each code works once. You'll need them if you lose your authenticator.",
+      "copy": "Copy all",
+      "download": "Download .txt",
+      "ack": "I've saved my recovery codes",
+      "done": "Done"
+    },
+    "disablePanel": {
+      "heading": "Disable two-factor authentication",
+      "description": "Re-enter your password to turn off 2FA. We'll delete your TOTP secret and recovery codes.",
+      "confirm": "Disable 2FA"
+    },
+    "regeneratePanel": {
+      "heading": "Regenerate recovery codes",
+      "description": "Re-enter your password. Old recovery codes will stop working.",
+      "confirm": "Regenerate"
+    },
+    "cancel": "Cancel",
+    "errors": {
+      "INVALID_PASSWORD": "Password is incorrect.",
+      "invalid_credentials": "Password is incorrect.",
+      "INVALID_TWO_FACTOR_COOKIE": "Your verification window expired. Sign in again.",
+      "INVALID_CODE": "That code didn't match. Try again.",
+      "TOTP_NOT_ENABLED": "TOTP isn't enabled on this account.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "sessions": {
+    "title": "Active sessions",
+    "current": "This device",
+    "lastActive": "Last active {{when}}",
+    "ipAddress": "IP {{ip}}",
+    "revoke": "Revoke",
+    "revokeOthers": "Sign out everywhere else",
+    "errors": {
+      "generic": "Could not revoke session."
+    }
+  },
+  "danger": {
+    "deleteAccount": "Delete account",
+    "deleteDialog": {
+      "title": "Delete account",
+      "description": "This will permanently delete your account and all files. This action cannot be undone.",
+      "typeConfirm": "Type <strong>DELETE</strong> to confirm",
+      "placeholder": "DELETE",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "confirm": "Delete account"
+    },
+    "failedToDelete": "Failed to delete account",
+    "unexpectedError": "An unexpected error occurred"
+  }
+}

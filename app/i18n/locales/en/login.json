@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "title": "Sign in | S2",
+    "signupTitle": "Sign up | S2",
+    "twoFactorTitle": "Two-factor verification | S2",
+    "forgotPasswordTitle": "Reset password | S2",
+    "resetPasswordTitle": "Choose a new password | S2"
+  },
+  "heading": "Sign in to S2",
+  "cta": "Sign in",
+  "submitting": "Signing in…",
+  "error": "Sign in failed: {{error}}",
+  "noAccountSignUp": "Create an account",
+  "email": {
+    "label": "Email",
+    "placeholder": "you@example.com",
+    "or": "or"
+  },
+  "password": {
+    "label": "Password"
+  },
+  "passkey": "Sign in with a passkey",
+  "signup": {
+    "heading": "Create your S2 account",
+    "cta": "Create account",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "verificationSent": "We sent a verification link to {{email}}. Open it to finish creating your account."
+  },
+  "forgotPassword": {
+    "link": "Forgot password?",
+    "heading": "Reset your password",
+    "cta": "Send reset link",
+    "sent": "If this email exists in our system, check your inbox for a reset link.",
+    "backToSignIn": "Back to sign in",
+    "errors": {
+      "RESET_PASSWORD_DISABLED": "Password reset is not enabled on this server.",
+      "generic": "We couldn't send a reset link. Please try again."
+    }
+  },
+  "resetPassword": {
+    "heading": "Choose a new password",
+    "newPasswordLabel": "New password",
+    "cta": "Update password",
+    "success": "Your password was updated. You can sign in now.",
+    "backToSignIn": "Back to sign in",
+    "missingToken": "This reset link is missing or invalid.",
+    "requestNewLink": "Request a new reset link",
+    "errors": {
+      "INVALID_TOKEN": "This reset link is invalid or has expired.",
+      "PASSWORD_TOO_SHORT": "Password must be at least 8 characters.",
+      "reset_failed": "We couldn't update your password. Please try again.",
+      "generic": "We couldn't update your password. Please try again."
+    }
+  },
+  "errors": {
+    "invalid_credentials": "Email or password is incorrect.",
+    "INVALID_EMAIL_OR_PASSWORD": "Email or password is incorrect.",
+    "USER_ALREADY_EXISTS": "An account already exists for this email.",
+    "PASSWORD_TOO_SHORT": "Password must be at least 8 characters.",
+    "signup_failed": "We couldn't create your account. Please try again.",
+    "signup_disabled": "New sign-ups are temporarily paused. Existing accounts can still sign in.",
+    "EMAIL_NOT_VERIFIED": "Verify your email before signing in. Check your inbox for the verification link.",
+    "passkey_unsupported": "This browser doesn't support passkeys.",
+    "passkey_failed": "We couldn't sign you in with a passkey. Please try again."
+  },
+  "twoFactor": {
+    "heading": "Two-factor verification",
+    "codeLabel": "6-digit code",
+    "codePlaceholder": "123456",
+    "recoveryLabel": "Recovery code",
+    "recoveryPlaceholder": "abc12-de34f",
+    "cta": "Verify",
+    "useRecovery": "Lost your device? Use a recovery code",
+    "useTotp": "Use your authenticator app instead",
+    "errors": {
+      "INVALID_CODE": "That code didn't match. Try again.",
+      "INVALID_BACKUP_CODE": "That recovery code isn't valid.",
+      "INVALID_TWO_FACTOR_COOKIE": "Your verification window expired. Sign in again.",
+      "TOO_MANY_ATTEMPTS_REQUEST_NEW_CODE": "Too many attempts. Wait a moment and try again.",
+      "TOTP_NOT_ENABLED": "TOTP isn't enabled on this account.",
+      "BACKUP_CODES_NOT_ENABLED": "Recovery codes aren't enabled on this account.",
+      "generic": "Something went wrong. Please try again."
+    }
+  }
+}

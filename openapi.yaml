@@ -1,0 +1,979 @@
+openapi: 3.1.0
+info:
+  title: S2 API
+  version: 1.0.0
+  description: |
+    S2 is a personal data hub. The REST API at `/api/v1/*` is the public
+    surface for AI agents and external clients. WebDAV (`/dav/*`) and MCP
+    (`/mcp`) are separate surfaces over the same services.
+
+    All file paths are relative to the token's base path. For example, if your
+    token's base path is `/projects/`, then `/api/v1/files/readme.txt` refers
+    to `/projects/readme.txt` in your storage.
+
+    WebUI-only management endpoints (account, history, recovery, trash,
+    settings) live under `/internal/*` and are not documented here: they are
+    cookie-only and Bearer is rejected. Sign-in / sign-up / session APIs live
+    under `/api/auth/*` and follow Better Auth's contract.
+servers:
+  - url: https://s2.example.com
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/files/{path}:
+    get:
+      operationId: downloadFile
+      summary: Download a file
+      description: |
+        Returns the file content as a binary stream.
+        If the path ends with `/`, returns a directory listing instead.
+      parameters:
+        - $ref: "#/components/parameters/FilePath"
+        - $ref: "#/components/parameters/IfNoneMatch"
+      responses:
+        "200":
+          description: File content
+          headers:
+            ETag:
+              $ref: "#/components/headers/ETag"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "304":
+          description: Not modified (ETag match)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    head:
+      operationId: headFile
+      summary: Get file metadata
+      description: Returns Content-Length, Content-Type, and ETag headers without the body.
+      parameters:
+        - $ref: "#/components/parameters/FilePath"
+        - $ref: "#/components/parameters/IfNoneMatch"
+      responses:
+        "200":
+          description: File metadata in headers
+          headers:
+            Content-Length:
+              schema:
+                type: integer
+            Content-Type:
+              schema:
+                type: string
+            ETag:
+              $ref: "#/components/headers/ETag"
+        "304":
+          description: Not modified (ETag match)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      operationId: uploadFile
+      summary: Upload a file
+      description: |
+        Upload a file to the given path. If the path ends with `/` and the
+        body is empty, a directory is created instead (prefer `/files-mkdir`
+        for that intent).
+      parameters:
+        - $ref: "#/components/parameters/FilePath"
+        - $ref: "#/components/parameters/IfMatch"
+        - $ref: "#/components/parameters/IfNoneMatch"
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: File uploaded successfully
+          headers:
+            ETag:
+              $ref: "#/components/headers/ETag"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          description: Precondition failed (If-Match / If-None-Match)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "413":
+          description: Storage limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      operationId: deleteFile
+      summary: Delete a file
+      description: Soft-deletes a file or directory (moves to trash).
+      parameters:
+        - $ref: "#/components/parameters/FilePath"
+      responses:
+        "204":
+          description: File deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/files/:
+    get:
+      operationId: listFiles
+      summary: List files in a directory
+      description: |
+        Returns the files and directories at the root of the token's base path.
+        For a subdirectory, use `downloadFile` with a trailing slash.
+      responses:
+        "200":
+          description: Directory listing
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FileItem"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/files-move:
+    post:
+      operationId: moveFile
+      summary: Move or rename a file/directory
+      description: |
+        Moves or renames a file or directory. Both source and destination
+        paths are in the JSON body.
+
+        Overwrite semantics mirror WebDAV `MOVE Overwrite:T`:
+          * `overwrite=false` (default): a destination collision returns 412
+            Precondition Failed.
+          * `overwrite=true`: an existing destination *file* is replaced
+            (destination node identity and version history are preserved; the
+            source is then soft-deleted). A directory destination, or a
+            source/destination type mismatch, returns 409.
+
+        Moving a directory into its own subtree returns 409.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [from, to]
+              properties:
+                from:
+                  type: string
+                  description: Source path (relative to token's base path).
+                to:
+                  type: string
+                  description: Destination path (relative to token's base path).
+                overwrite:
+                  type: boolean
+                  default: false
+                  description: |
+                    When true, replace an existing destination *file* in
+                    place (preserves the destination's version history).
+      responses:
+        "200":
+          description: File moved or replaced
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, content_version]
+                properties:
+                  id:
+                    type: string
+                    description: Node ID of the moved (or replaced) file.
+                  content_version:
+                    type: integer
+                    description: Monotonic version counter (CAS token).
+                  overwritten:
+                    type: boolean
+                    description: Present and true when the response describes a replace (overwrite=true and the destination already existed).
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: |
+            Cycle detected (descendant move) or destination type mismatch
+            (e.g. overwrite=true with directory destination).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "412":
+          description: Destination already exists and overwrite is false
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/files-copy:
+    post:
+      operationId: copyFile
+      summary: Copy a file or directory
+      description: |
+        Copies a file or directory.
+
+        Response shape is discriminated by the source type (see the
+        `oneOf` on the 201 response):
+
+          * `type: "file"` — single-file copy. Returns the new node's id,
+            size, hash, and content_version.
+          * `type: "directory"` — recursive subtree copy. Returns one entry
+            per file/directory copied. Directory entries omit size/hash.
+
+        Overwrite semantics for directory copy are **history-preserving**:
+        when `overwrite=true` and a destination file already exists at a
+        path inside the subtree, the existing node is kept and a new
+        revision is appended. The destination's version
+        history is preserved. Existing destination files that do not
+        collide with source paths are left untouched (merge semantics).
+
+        **Non-atomic contract for directory copy**: the walk is performed
+        as a sequence of per-entry writes. On failure mid-walk, already-
+        copied entries are not rolled back; the error response includes a
+        `partial` flag and the list of entries that did succeed so clients
+        can resume or reconcile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [from, to]
+              properties:
+                from:
+                  type: string
+                  description: Source path (relative to token's base path).
+                to:
+                  type: string
+                  description: Destination path (relative to token's base path).
+                overwrite:
+                  type: boolean
+                  default: false
+                  description: |
+                    When true, overwrite the destination if it exists.
+                    For directory copy, this triggers the history-preserving
+                    merge described above.
+      responses:
+        "201":
+          description: Source copied
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/CopyFileResult"
+                  - $ref: "#/components/schemas/CopyTreeResult"
+                discriminator:
+                  propertyName: type
+                  mapping:
+                    file: "#/components/schemas/CopyFileResult"
+                    directory: "#/components/schemas/CopyTreeResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: |
+            Destination already exists (overwrite=false), type mismatch
+            between source and destination, or cycle (destination inside
+            source subtree). For directory copy, the body includes a
+            `partial` flag and the list of entries successfully copied
+            before the failure.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CopyTreeError"
+        "413":
+          description: Storage limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CopyTreeError"
+
+  /api/v1/files-mkdir:
+    post:
+      operationId: mkdir
+      summary: Create a directory
+      description: |
+        Creates a directory at the given path. REST counterpart to WebDAV MKCOL.
+        Idempotent: if the path already exists as a
+        directory, returns 200 with the existing node; if it exists as a file,
+        returns 409.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [path]
+              properties:
+                path:
+                  type: string
+                  description: Directory path (relative to token's base path).
+      responses:
+        "200":
+          description: Directory already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MkdirResult"
+        "201":
+          description: Directory created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MkdirResult"
+        "400":
+          description: Invalid path
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          description: Path already exists as a file
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/token:
+    get:
+      operationId: getToken
+      summary: Token introspection (Bearer-only)
+      description: |
+        Returns information about the calling Bearer token. Cookie sessions
+        receive 403 — the WebUI uses `/internal/account` for equivalent context.
+      responses:
+        "200":
+          description: Token introspection
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenIntrospection"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/v1/tokens:
+    post:
+      operationId: createToken
+      summary: Create an API token
+      description: |
+        Create a new scoped API token with auto-issue. Returns the raw token
+        string (shown once only) along with the token metadata.
+
+        With a Bearer token (must have `can_delegate: true`), the new token
+        becomes a child token whose scope is a subset of the caller's. With a
+        cookie session, the new token is created at the user root.
+
+        Listing user tokens and metadata edits live at `/internal/tokens` (cookie-only).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, access_paths]
+              properties:
+                name:
+                  type: string
+                  description: Display name for the token.
+                base_path:
+                  type: string
+                  default: /
+                  description: Root path for the token's scope.
+                can_delegate:
+                  type: boolean
+                  default: false
+                  description: Whether this token can create child tokens.
+                expires_in_days:
+                  type: integer
+                  minimum: 1
+                  maximum: 365
+                  default: 90
+                  description: Token expiry in days from creation.
+                access_paths:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AccessPath"
+      responses:
+        "201":
+          description: Token created and issued
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, raw_token, expires_at]
+                properties:
+                  token:
+                    $ref: "#/components/schemas/ApiToken"
+                  raw_token:
+                    type: string
+                    description: The raw s2_ token string. Shown once only.
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: Token expiration timestamp.
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /api/v1/tokens/{id}:
+    delete:
+      operationId: deleteToken
+      summary: Delete an API token
+      description: |
+        Delete an API token. With a cookie session, deletes any owned token.
+        With a Bearer token, only direct child tokens created via delegation
+        (origin_id must match the caller's token ID) can be deleted.
+
+        If the token still has delegation children (other tokens reference
+        it via parent_grant_id), the delete is rejected with 409
+        `has_children` — the children must be deleted (or detached) first.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Token deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: Token not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Token has delegation children; delete or detach them first
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/uploads:
+    post:
+      operationId: createUploadSession
+      summary: Create a chunked upload session
+      description: |
+        Create an upload session for large files. Upload the chunks, then call
+        complete to finalize.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [path, totalSize]
+              properties:
+                path:
+                  type: string
+                  description: Destination file path.
+                totalSize:
+                  type: integer
+                  description: Total file size in bytes (required). Server computes expected chunk count from this.
+      responses:
+        "201":
+          description: Upload session created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [sessionId, nodeId, chunkSize, expiresAt]
+                properties:
+                  sessionId:
+                    type: string
+                  nodeId:
+                    type: string
+                  chunkSize:
+                    type: integer
+                    description: Maximum chunk size in bytes (4 MB).
+                  expiresAt:
+                    type: string
+                    format: date-time
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "413":
+          description: Storage limit exceeded
+
+  /api/v1/uploads/{id}/{chunk}:
+    put:
+      operationId: uploadChunk
+      summary: Upload a chunk
+      description: Upload a single chunk of a file. Every chunk except the last must be exactly the session chunk size.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Upload session ID
+        - name: chunk
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Zero-based chunk index
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Chunk uploaded
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /api/v1/uploads/{id}/complete:
+    post:
+      operationId: completeUpload
+      summary: Complete an upload session
+      description: Finalize the upload session and commit the file.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Upload session ID
+      responses:
+        "200":
+          description: Upload completed
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [nodeId, size, chunkCount, content_version]
+                properties:
+                  nodeId:
+                    type: string
+                  size:
+                    type: integer
+                  chunkCount:
+                    type: integer
+                  content_version:
+                    type: integer
+                    description: Monotonic version counter (CAS token).
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: Upload session conflict (missing chunks or already completed)
+
+  /api/v1/uploads/{id}:
+    delete:
+      operationId: cancelUpload
+      summary: Cancel an upload session
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Upload session ID
+      responses:
+        "204":
+          description: Upload session cancelled
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: "API token in the format `s2_xxxxxxxxxxxx`"
+
+  headers:
+    ETag:
+      description: Quoted content version integer (e.g. `"5"`). Use with `If-Match` for optimistic locking.
+      schema:
+        type: string
+
+  parameters:
+    FilePath:
+      name: path
+      in: path
+      required: true
+      description: |
+        File path relative to the token's base path.
+        Can contain slashes for nested paths (e.g. `docs/readme.txt`).
+      schema:
+        type: string
+    IfMatch:
+      name: If-Match
+      in: header
+      description: |
+        Quoted content version for optimistic locking (e.g. `"5"`).
+        The request succeeds only if the current version matches.
+      schema:
+        type: string
+    IfNoneMatch:
+      name: If-None-Match
+      in: header
+      description: |
+        Set to `*` to succeed only if the resource does not exist.
+        For GET/HEAD, set to an ETag value to get 304 if unchanged.
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid authentication
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              examples: [not_found, unauthorized, forbidden, validation_error]
+            message:
+              type: string
+              description: Human-readable error message
+
+    AccessPath:
+      type: object
+      required: [path, access]
+      properties:
+        path:
+          type: string
+          description: |
+            Path relative to the token's `base_path`.
+            - `""` (empty string) is the canonical root and grants access to
+              everything under `base_path`.
+            - Subpaths are relative: `"photos"`, `"projects/myapp/src"`. No
+              leading `/`. A trailing `/` is stripped on receipt.
+            `.` / `..` segments, consecutive slashes, NUL bytes, newlines, and
+            leading/trailing whitespace are rejected.
+        access:
+          type: string
+          enum: [read, write]
+          description: |
+            Access level for this path. Cumulative: "write" implies "read".
+            - read: list, download, metadata
+            - write: read + create, update, delete
+
+    FileItem:
+      oneOf:
+        - $ref: "#/components/schemas/FileItemFile"
+        - $ref: "#/components/schemas/FileItemDirectory"
+      discriminator:
+        propertyName: type
+        mapping:
+          file: "#/components/schemas/FileItemFile"
+          directory: "#/components/schemas/FileItemDirectory"
+
+    FileItemFile:
+      type: object
+      required: [id, name, type, size, modified_at, content_version, content_type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          const: file
+        size:
+          type: integer
+        modified_at:
+          type: string
+          format: date-time
+        hash:
+          type: string
+          nullable: true
+        revision_id:
+          type: string
+          nullable: true
+        content_version:
+          type: integer
+          description: Monotonic version counter (CAS token).
+        content_type:
+          type: string
+
+    FileItemDirectory:
+      type: object
+      required: [id, name, type, content_version, content_type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          const: directory
+        hash:
+          type: string
+          nullable: true
+          description: Always null for directories.
+        revision_id:
+          type: string
+          nullable: true
+          description: Always null for directories.
+        content_version:
+          type: integer
+          description: Monotonic version counter (CAS token).
+        content_type:
+          type: string
+
+    UploadResult:
+      type: object
+      required: [id, name, size, hash, content_version]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        size:
+          type: integer
+        hash:
+          type: string
+        content_version:
+          type: integer
+          description: Monotonic version counter (CAS token).
+
+    CopyFileResult:
+      type: object
+      required: [type, id, size, hash, content_version]
+      properties:
+        type:
+          type: string
+          const: file
+        id:
+          type: string
+        size:
+          type: integer
+        hash:
+          type: string
+        content_version:
+          type: integer
+          description: Monotonic version counter on the destination node (CAS token).
+
+    CopyTreeEntry:
+      oneOf:
+        - type: object
+          required: [kind, src_path, dest_path, id, size, hash, content_version, existed]
+          properties:
+            kind:
+              type: string
+              const: file
+            src_path:
+              type: string
+            dest_path:
+              type: string
+            id:
+              type: string
+            size:
+              type: integer
+            hash:
+              type: string
+            content_version:
+              type: integer
+            existed:
+              type: boolean
+              description: True when the destination file already existed and a new revision was appended (history-preserving).
+        - type: object
+          required: [kind, src_path, dest_path, id, existed]
+          properties:
+            kind:
+              type: string
+              const: directory
+            src_path:
+              type: string
+            dest_path:
+              type: string
+            id:
+              type: string
+            existed:
+              type: boolean
+              description: True when the destination directory already existed and entries were merged into it.
+      discriminator:
+        propertyName: kind
+
+    CopyTreeResult:
+      type: object
+      required: [type, entries]
+      properties:
+        type:
+          type: string
+          const: directory
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/CopyTreeEntry"
+          description: |
+            One entry per file or directory copied. Non-atomic: on partial
+            failure, this list reflects only the entries that succeeded
+            before the error.
+
+    CopyTreeError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            partial:
+              type: boolean
+              description: |
+                True iff at least one entry was written before the failure
+                (directory copy is non-atomic — already-copied entries
+                remain on the server).
+            failed_at_src:
+              type: string
+              nullable: true
+            failed_at_dest:
+              type: string
+              nullable: true
+        entries:
+          type: array
+          description: Entries successfully copied before the failure (directory copy only).
+          items:
+            $ref: "#/components/schemas/CopyTreeEntry"
+
+    MkdirResult:
+      type: object
+      required: [id, name, type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          const: directory
+
+    ApiToken:
+      type: object
+      required: [id, name, base_path, can_delegate, origin_id, created_at, access_paths]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        base_path:
+          type: string
+        can_delegate:
+          type: boolean
+        origin_id:
+          type: string
+          nullable: true
+          description: Parent token ID if created via delegation.
+        created_at:
+          type: string
+          format: date-time
+        access_paths:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccessPath"
+
+    TokenIntrospection:
+      type: object
+      required: [user_id, token_id, can_delegate, access_paths]
+      description: |
+        Token holders cannot learn the absolute position of their `base_path`
+        within the delegator's tree. All paths in API responses (including
+        `access_paths` below) are relative to the token's base_path.
+      properties:
+        user_id:
+          type: string
+        token_id:
+          type: string
+        can_delegate:
+          type: boolean
+        access_paths:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccessPath"

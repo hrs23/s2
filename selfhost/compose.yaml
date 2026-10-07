@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: s2
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - ${POSTGRES_DATA_PATH:-./data/postgres}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d s2"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: ..
+      dockerfile: selfhost/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      AUTH_SECRET: ${AUTH_SECRET:?set AUTH_SECRET in .env}
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/s2?sslmode=disable
+      SIGNUP_ENABLED: ${SIGNUP_ENABLED:-false}
+      PASSKEY_ENABLED: ${PASSKEY_ENABLED:-true}
+      TOTP_ENABLED: ${TOTP_ENABLED:-true}
+      EMAIL_ENABLED: ${EMAIL_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      MAINTENANCE_ENABLED: ${MAINTENANCE_ENABLED:-true}
+      MAINTENANCE_CRON: ${MAINTENANCE_CRON:-0 17 * * *}
+      TRASH_RETENTION_DAYS: ${TRASH_RETENTION_DAYS:-}
+      MAX_PAST_VERSIONS: ${MAX_PAST_VERSIONS:-}
+      GC_GRACE_DAYS: ${GC_GRACE_DAYS:-}
+      GC_BATCH_SIZE: ${GC_BATCH_SIZE:-}
+      NODE_ENV: production
+      PORT: 3000
+      S2_STORAGE_ROOT: /data/storage
+    ports:
+      - "127.0.0.1:${S2_PORT:-3000}:3000"
+    volumes:
+      - ${S2_STORAGE_PATH:-./data/storage}:/data/storage
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    command: sh -c "pnpm selfhost:migrate && pnpm selfhost:serve"

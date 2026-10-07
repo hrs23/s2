@@ -1,0 +1,12 @@
+node_modules/
+.dev/storage
+*.log
+.env
+.dev.vars
+build/
+.react-router/
+selfhost/data/
+test-results/
+e2e/playwright-report/
+coverage/
+.DS_Store

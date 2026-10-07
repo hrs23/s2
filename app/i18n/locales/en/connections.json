@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Connections | S2"
+  },
+  "heading": "Connections",
+  "loading": "Loading…",
+  "empty": "No connections yet.",
+  "connectedAt": "Connected {{when}}",
+  "actions": {
+    "edit": "Edit",
+    "disconnect": "Disconnect",
+    "disconnecting": "Disconnecting…",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel"
+  },
+  "disconnect": {
+    "confirm": "Disconnect \"{{appName}}\"? It will need to authorize again to access your files."
+  },
+  "fields": {
+    "basePath": "Base path",
+    "allowedPaths": "Allowed paths",
+    "noPaths": "No paths granted",
+    "paths": "Paths"
+  },
+  "edit": {
+    "legend": "Edit access"
+  },
+  "errors": {
+    "disconnectFailed": "Disconnect failed",
+    "saveFailed": "Save failed",
+    "requestFailed": "Failed ({{status}})"
+  },
+  "relative": {
+    "justNow": "just now",
+    "secondsAgo": "{{count}}s ago",
+    "minutesAgo": "{{count}}m ago",
+    "todayAt": "today {{time}}",
+    "daysAgoAt": "{{count}}d ago, {{time}}"
+  }
+}

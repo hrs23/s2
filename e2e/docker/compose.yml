@@ -1,0 +1,97 @@
+name: s2-e2e
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    networks:
+      - e2e
+
+  migrate:
+    image: ghcr.io/amacneil/dbmate:2
+    command:
+      - --url
+      - postgres://postgres:postgres@postgres:5432/s2?sslmode=disable
+      - -d
+      - /app/migrations
+      - --no-dump-schema
+      - up
+    volumes:
+      - ../../migrations:/app/migrations:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - e2e
+
+  app:
+    build:
+      context: ../..
+      dockerfile: e2e/docker/Dockerfile.app
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/s2?sslmode=disable
+      S2_STORAGE_ROOT: /tmp/s2-e2e-storage
+      VITE_ALLOWED_HOSTS: app
+      SIGNUP_ENABLED: "true"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      # /health checks DB + storage connectivity — ensures app is fully ready before tests
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8888/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 5s
+      timeout: 10s
+      retries: 36
+      start_period: 60s
+    networks:
+      - e2e
+
+  test:
+    build:
+      context: ../..
+      dockerfile: e2e/docker/Dockerfile.test
+    environment:
+      # WebAuthn (`window.PublicKeyCredential`) is only exposed in secure
+      # contexts (HTTPS or `localhost`). With `network_mode: service:app`
+      # this container shares the app's network namespace, so reaching the
+      # app via `localhost:8888` lets Chromium expose passkeys without
+      # needing HTTPS in the test rig. The app is configured with the
+      # matching `APP_URL` so Better Auth's passkey rpID = "localhost"
+      # aligns with the browser origin.
+      PLAYWRIGHT_BASE_URL: http://localhost:8888
+      E2E_DB_URL: postgres://postgres:postgres@postgres:5432/s2
+      E2E_CONTAINER: "true"
+      CI: "true"
+    depends_on:
+      app:
+        condition: service_healthy
+    # ipc: host improves Chromium stability in Docker (shared memory for browser)
+    ipc: host
+    # Share the app container's network namespace so `localhost:8888` reaches
+    # the app server. `networks` cannot be combined with `network_mode`; the
+    # app service stays on the `e2e` network, so postgres remains reachable
+    # from this container as `postgres:5432`.
+    network_mode: "service:app"
+
+  litmus:
+    build:
+      context: ../..
+      dockerfile: e2e/docker/Dockerfile.litmus
+    environment:
+      DB_URL: postgres://postgres:postgres@postgres:5432/s2
+      LITMUS_TESTS: "basic copymove"
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - e2e
+
+networks:
+  e2e:
+    driver: bridge
