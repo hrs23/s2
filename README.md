@@ -1,6 +1,6 @@
 # S2
 
-![S2](public/brand/product.svg)
+![S2: one storage, each person and AI agent sees only its folders](website/images/hero.svg)
 
 Self-hosted file storage with folder permissions for people, apps, and AI agents.
 
