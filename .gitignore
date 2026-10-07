@@ -5,7 +5,7 @@ node_modules/
 .dev.vars
 build/
 .react-router/
-selfhost/data/
+data/
 test-results/
 e2e/playwright-report/
 coverage/

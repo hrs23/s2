@@ -79,10 +79,10 @@ function requiredOption(options: Record<string, string>, key: string): string {
 
 function usage(): void {
   process.stdout.write(`Usage:
-  pnpm selfhost:user create --email owner@example.com
-  pnpm selfhost:user create --email owner@example.com --password 'change-me-now'
-  pnpm selfhost:user set-password --email owner@example.com
-  pnpm selfhost:user set-password --email owner@example.com --password 'change-me-now'
+  pnpm user create --email owner@example.com
+  pnpm user create --email owner@example.com --password 'change-me-now'
+  pnpm user set-password --email owner@example.com
+  pnpm user set-password --email owner@example.com --password 'change-me-now'
 `);
 }
 

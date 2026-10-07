@@ -5,7 +5,7 @@ Requires Node.js, pnpm (`corepack enable`), and Docker.
 ```sh
 pnpm install
 cp .dev.vars.example .dev.vars   # set AUTH_SECRET
-docker compose up -d             # dev Postgres
+docker compose -f compose.dev.yaml up -d   # dev Postgres
 pnpm dev                         # migrate + serve on :8888
 pnpm dev:fresh                   # reset DB and .dev/storage, then serve
 pnpm db:reset                    # reset DB only

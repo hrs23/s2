@@ -14,9 +14,7 @@ services:
       retries: 10
 
   app:
-    build:
-      context: ..
-      dockerfile: selfhost/Dockerfile
+    image: ghcr.io/hrs23/s2:${S2_VERSION:-latest}
     restart: unless-stopped
     depends_on:
       db:
@@ -60,4 +58,4 @@ services:
       timeout: 5s
       retries: 6
       start_period: 30s
-    command: sh -c "pnpm selfhost:migrate && pnpm selfhost:serve"
+    command: sh -c "pnpm migrate && pnpm serve"

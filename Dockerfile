@@ -10,4 +10,4 @@ RUN pnpm build
 
 EXPOSE 3000
 
-CMD ["pnpm", "selfhost:serve"]
+CMD ["pnpm", "serve"]

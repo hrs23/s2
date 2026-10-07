@@ -2,10 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-const compose = readFileSync(
-  path.join(process.cwd(), "selfhost/compose.yaml"),
-  "utf8",
-);
+const compose = readFileSync(path.join(process.cwd(), "compose.yaml"), "utf8");
 
 describe("self-host Compose contract", () => {
   it("requires an operator-provided Postgres password", () => {
