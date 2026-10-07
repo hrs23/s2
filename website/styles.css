@@ -113,7 +113,7 @@ h2 {
   margin: 0;
 }
 h1 {
-  font-size: clamp(3.25rem, 7.2vw, 6.6rem);
+  font-size: clamp(2.8rem, 5.2vw, 4.8rem);
 }
 h1 em {
   font-style: normal;
@@ -154,6 +154,8 @@ h1 em {
 }
 
 .token-window {
+  max-width: 23rem;
+  justify-self: end;
   background: #fff;
   border: 1px solid var(--ink);
   box-shadow: 0.75rem 0.75rem 0 var(--acid);
@@ -166,8 +168,7 @@ h1 em {
   height: auto;
 }
 .flow {
-  grid-column: 1 / -1;
-  margin: 0;
+  margin: 0 0 2.5rem;
   overflow-x: auto;
 }
 .flow figcaption {
@@ -248,7 +249,10 @@ h1 em {
   gap: clamp(3rem, 9vw, 9rem);
 }
 h2 {
-  font-size: clamp(2.8rem, 5.6vw, 5.5rem);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+}
+.scope-copy {
+  min-width: 0;
 }
 .scope-copy > p {
   max-width: 40rem;
