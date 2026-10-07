@@ -236,8 +236,7 @@ function buildAuth(env: Env) {
       session: {
         create: {
           after: async (session) => {
-            // Track per-user last-sign-in for the activity banner / cron
-            // staleness alerts.
+            // Track per-user last sign-in.
             const client = await pool.connect();
             try {
               await client.query(

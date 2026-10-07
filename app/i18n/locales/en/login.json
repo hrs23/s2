@@ -56,7 +56,7 @@
   "errors": {
     "invalid_credentials": "Email or password is incorrect.",
     "INVALID_EMAIL_OR_PASSWORD": "Email or password is incorrect.",
-    "USER_ALREADY_EXISTS": "An account already exists for this email.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "An account already exists for this email.",
     "PASSWORD_TOO_SHORT": "Password must be at least 8 characters.",
     "signup_failed": "We couldn't create your account. Please try again.",
     "signup_disabled": "New sign-ups are temporarily paused. Existing accounts can still sign in.",

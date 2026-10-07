@@ -6,7 +6,7 @@ export type SortBy = "name" | "size" | "date";
 export type SortOrder = "asc" | "desc";
 
 /**
- * Preview categories. Decided in adr/preview-scope.md.
+ * Preview categories.
  * "none" means show metadata + download only — no in-browser viewer.
  */
 export type PreviewType =
@@ -21,7 +21,7 @@ export type PreviewType =
 // --- Constants ---
 
 // Code / text-like extensions. Rendered with syntax highlighting (Shiki).
-// HTML is intentionally here (source view only — never rendered, see ADR).
+// HTML is intentionally here (source view only — never rendered).
 const CODE_EXTS = new Set([
   ".txt",
   ".json",

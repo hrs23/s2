@@ -13,9 +13,7 @@
     "version": "Version"
   },
   "common": {
-    "save": "Save",
     "saving": "Saving…",
-    "cancel": "Cancel",
     "delete": "Delete",
     "rename": "Rename"
   },
@@ -42,8 +40,6 @@
     "submit": "Update password",
     "success": "Password updated.",
     "errors": {
-      "invalid_credentials": "Current password is incorrect.",
-      "weak_password": "Pick a stronger password (at least 8 characters).",
       "generic": "Could not update password."
     }
   },
@@ -86,7 +82,6 @@
     "cancel": "Cancel",
     "errors": {
       "INVALID_PASSWORD": "Password is incorrect.",
-      "invalid_credentials": "Password is incorrect.",
       "INVALID_TWO_FACTOR_COOKIE": "Your verification window expired. Sign in again.",
       "INVALID_CODE": "That code didn't match. Try again.",
       "TOTP_NOT_ENABLED": "TOTP isn't enabled on this account.",

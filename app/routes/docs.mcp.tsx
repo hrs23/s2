@@ -52,10 +52,7 @@ export default function DocsMcpPage() {
       </section>
 
       <section className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold">{t("mcp.clients.title")}</h2>
-          <p className="text-gray-600">{t("mcp.clients.subtitle")}</p>
-        </div>
+        <h2 className="text-2xl font-bold">{t("mcp.clients.title")}</h2>
 
         {CLIENTS.map((key) => (
           <div key={key} className="space-y-2">
@@ -73,9 +70,6 @@ export default function DocsMcpPage() {
                 </li>
               ))}
             </ol>
-            <p className="text-sm text-gray-600">
-              {t(`mcp.clients.${key}.note`)}
-            </p>
           </div>
         ))}
       </section>

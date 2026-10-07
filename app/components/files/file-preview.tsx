@@ -1,5 +1,5 @@
 /**
- * In-browser file viewers. Scope decided in adr/preview-scope.md:
+ * In-browser file viewers.
  * image / pdf / video / audio / markdown / code (with syntax highlight).
  * No HTML rendering, no SVG rendering, no Office docs.
  */

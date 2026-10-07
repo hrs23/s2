@@ -1,5 +1,5 @@
 // DELETE /api/v1/tokens/:id — revoke a token.
-//   - Bearer can revoke itself or a child token it created
+//   - Bearer can revoke only child tokens it created
 //   - cookie session can revoke any of the user's own tokens
 // Metadata edits (PATCH) live at /internal/tokens/:id (cookie-only).
 

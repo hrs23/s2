@@ -8,7 +8,8 @@ Schema source: `migrations/20260101000000_init.sql`. Better Auth tables are came
 "user" ─┬─ session / account / verification / passkey / twoFactor
         ├─ user_limits / user_storage
         ├─ grants ─┬─ user_grants
-        │          ├─ oauth_grants ─ refresh_tokens
+        │          ├─ oauth_grants
+        │          ├─ refresh_tokens
         │          ├─ grant_paths
         │          └─ access_tokens
         ├─ file_nodes ─ file_revisions

@@ -6,10 +6,7 @@ interface Env {
   APP_URL: string;
   DATABASE_URL?: string;
   AUTH_STORAGE: import("better-auth").SecondaryStorage;
-  /**
-   * Signup kill switch. Unset or "true" = signups accepted;
-   * "false" = new account creation rejected (existing users still log in).
-   */
+  /** "false" rejects new sign-ups; existing users still log in. Self-host default: false. */
   SIGNUP_ENABLED?: string;
   /**
    * Passkey (WebAuthn) feature gate. Unset = enabled; "false" hides

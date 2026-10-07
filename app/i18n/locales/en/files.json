@@ -79,8 +79,8 @@
   "viewFile": {
     "loading": "Loading...",
     "failedToLoad": "Failed to load preview ({{error}})",
-    "cannotPreview": "This file cannot be previewed. Use download to view it.",
-    "tooLargeForPreview": "File is too large to preview ({{limit}} MB max). Download to view.",
+    "cannotPreview": "This file cannot be previewed.",
+    "tooLargeForPreview": "File is too large to preview ({{limit}} MB max).",
     "saving": "Saving...",
     "save": "Save"
   },

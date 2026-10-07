@@ -73,7 +73,6 @@ export default function DocsIndex() {
 
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">{t("index.accessMethods.title")}</h2>
-        <p className="text-gray-600">{t("index.accessMethods.subtitle")}</p>
 
         <div className="space-y-4">
           <Link
@@ -140,7 +139,6 @@ export default function DocsIndex() {
 
       <section className="space-y-3">
         <h2 className="text-2xl font-bold">{t("index.aiAgents.title")}</h2>
-        <p className="text-gray-600">{t("index.aiAgents.subtitle")}</p>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm">
           <p>
             <a

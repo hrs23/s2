@@ -39,7 +39,6 @@
     },
     "accessMethods": {
       "title": "Choose an Access Method",
-      "subtitle": "S2 offers several ways to access your files. Choose the one that best fits your needs.",
       "rest": {
         "title": "REST API",
         "desc": "A simple HTTP API for uploading, downloading, and deleting files. Ideal for integrating S2 into your own apps or scripts.",
@@ -58,7 +57,6 @@
     },
     "aiAgents": {
       "title": "For AI Agents",
-      "subtitle": "To feed this documentation into an AI agent or LLM, use the following endpoints.",
       "llmsTxt": "Complete API documentation for AI agents (can be fed directly into an LLM context)"
     }
   },
@@ -122,20 +120,17 @@
     },
     "clients": {
       "title": "Connect from ChatGPT or Claude",
-      "subtitle": "Paste URL → approve in browser → pick folder + permission.",
       "chatgpt": {
         "title": "ChatGPT",
         "step1": "<b>Settings → Apps & Connectors → Add custom</b>",
         "step2": "Paste the MCP URL, press <b>Connect</b>",
-        "step3": "Browser opens the S2 consent — pick folder + permission, <b>Allow</b>",
-        "note": "Plus / Team / Business."
+        "step3": "Browser opens the S2 consent — pick folder + permission, <b>Allow</b>"
       },
       "claudeAi": {
         "title": "Claude (claude.ai)",
         "step1": "<b>Settings → Connectors → Add custom connector</b>",
         "step2": "Paste the MCP URL, press <b>Add</b>",
-        "step3": "Approve in the browser when consent opens",
-        "note": "Pro / Team / Enterprise."
+        "step3": "Approve in the browser when consent opens"
       }
     },
     "tools": {

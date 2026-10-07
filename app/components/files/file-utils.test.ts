@@ -39,7 +39,7 @@ describe("getPreviewType", () => {
   });
 
   it("returns code for HTML and SVG (source view only — never rendered)", () => {
-    // Per ADR: HTML and SVG must not be rendered. Falling into the "code"
+    // HTML and SVG must not be rendered. Falling into the "code"
     // bucket means they go through Shiki / textarea, never <iframe>/<img>.
     expect(getPreviewType("page.html")).toBe("code");
     expect(getPreviewType("page.htm")).toBe("code");

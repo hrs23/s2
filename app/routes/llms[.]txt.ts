@@ -27,7 +27,7 @@ Connect from macOS Finder, Windows Explorer, and various WebDAV clients.
 
 ### macOS Finder
 Finder -> Go -> Connect to Server (Command+K) -> ${BASE}/dav
-Leave username empty, enter s2_ token as password.
+Username: s2 (any value works), password: your s2_ token.
 
 ### Supported Operations
 PROPFIND, GET, PUT, DELETE, MKCOL, MOVE, COPY, LOCK, UNLOCK

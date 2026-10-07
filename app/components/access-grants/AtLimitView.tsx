@@ -1,7 +1,7 @@
 // AtLimitView — shared "you've reached your access grant limit" surface.
 //
 // Used in two containers:
-//   - /dashboard/tokens Create modal (user trying to make a manual token)
+//   - /tokens Create modal (user trying to make a manual token)
 //   - /oauth/authorize consent (external app trying to get authorized)
 // Lists every grant in the shared pool (manual + delegated + OAuth) with
 // inline revoke so the user can free a slot without leaving the flow.

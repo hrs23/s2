@@ -54,12 +54,6 @@ Back up `POSTGRES_DATA_PATH` and `S2_STORAGE_PATH` (default `selfhost/data/{post
 | `TOTP_ENABLED` | `true` | TOTP and recovery codes |
 | `EMAIL_ENABLED` | `false` | Email verification and password reset; needs `SMTP_HOST`, `SMTP_FROM` (optional `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`) |
 
-## Limits
-
-- Row-level security is not active: the app connects as the `postgres` superuser.
-- Behind a reverse proxy, rate limits count the proxy address, not each client.
-- REST and WebDAV `PUT` buffer the whole body in memory; use chunked uploads for large files.
-
 ## Maintenance
 
 Runs daily in the app (`MAINTENANCE_ENABLED=true`, `MAINTENANCE_CRON="0 17 * * *"`, UTC). One-shot:
