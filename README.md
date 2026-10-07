@@ -14,10 +14,11 @@ Two containers (app, Postgres) from `ghcr.io/hrs23/s2`. The app listens on `127.
 ```sh
 mkdir s2 && cd s2
 curl -fsSLO https://raw.githubusercontent.com/hrs23/s2/main/compose.yaml
-curl -fsSL https://raw.githubusercontent.com/hrs23/s2/main/.env.example -o .env
+printf 'AUTH_SECRET=%s\nPOSTGRES_PASSWORD=%s\nAPP_URL=http://localhost:3000\n' \
+  "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" > .env
 ```
 
-Edit `.env`: set `AUTH_SECRET` and `POSTGRES_PASSWORD` (`openssl rand -hex 32`) and `APP_URL`.
+Set `APP_URL` to the public URL. Keep `AUTH_SECRET` and `POSTGRES_PASSWORD` unchanged afterwards; other options are in [.env.example](.env.example).
 
 ```sh
 docker compose up -d
@@ -31,7 +32,7 @@ docker compose exec app pnpm user create --email owner@example.com
 docker compose pull && docker compose up -d
 ```
 
-Set `S2_VERSION` in `.env` to pin a release (default `latest`). Migrations run on startup. Back up first.
+Set `S2_VERSION` in `.env` to pin a release (default `latest`). Migrations run on startup.
 
 ### Reset password
 
@@ -41,7 +42,7 @@ docker compose exec app pnpm user set-password --email owner@example.com
 
 ### Backup
 
-Stop the stack and copy `./data` (`POSTGRES_DATA_PATH` and `S2_STORAGE_PATH`) together.
+Stop the stack and copy `./data` (`POSTGRES_DATA_PATH` and `S2_STORAGE_PATH`) together. Do this before an upgrade that notes a breaking change.
 
 ### Flags
 
