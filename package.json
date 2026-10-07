@@ -51,7 +51,7 @@
     "better-auth": "^1.6.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dompurify": "^3.4.0",
+    "dompurify": "^3.4.16",
     "i18next": "^25.10.5",
     "lucide-react": "^0.577.0",
     "markdown-it": "^14.1.1",
