@@ -42,7 +42,7 @@ docker compose exec app pnpm user set-password --email owner@example.com
 
 ### Backup
 
-Stop the stack and copy `./data` (`POSTGRES_DATA_PATH` and `S2_STORAGE_PATH`) together. Do this before an upgrade that notes a breaking change.
+Stop the stack and copy `.env` and `./data` (`POSTGRES_DATA_PATH` and `S2_STORAGE_PATH`) together; the database cannot be opened without the original `POSTGRES_PASSWORD`. Do this before an upgrade that notes a breaking change.
 
 ### Flags
 
