@@ -2,14 +2,13 @@
   <rect width="660" height="404" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
   <g transform="translate(24 0)">
   <g fill="none" stroke="#9ca3af" stroke-width="2">
-  <path d="M40 62V256"/>
-  <path d="M40 256V360" stroke-dasharray="6 5"/>
+  <path d="M40 62V360"/>
   <path d="M40 100H72"/>
   <path d="M40 152H72"/>
   <path d="M40 204H72"/>
   <path d="M40 256H72"/>
-  <path d="M40 308H72" stroke-dasharray="6 5"/>
-  <path d="M40 360H72" stroke-dasharray="6 5"/>
+  <path d="M40 308H72"/>
+  <path d="M40 360H72"/>
   </g>
   <path transform="translate(28 35)" d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/><text x="62" y="50" font-size="17" font-weight="700" fill="#111827" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">root</text>
   <rect x="290" y="29" width="91" height="30" rx="15" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/><g transform="translate(300 35)"><circle cx="9" cy="9" r="9" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/><circle cx="9" cy="7.2" r="2.8" fill="#2563eb"/><path d="M4 14.2a5 5 0 0 1 10 0z" fill="#2563eb"/></g><text x="325" y="48.8" font-size="13" font-weight="600" fill="#1d4ed8">me</text><g transform="translate(357 37)" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l.6-3.2L9.6 1.8l2.6 2.6-7 7z"/><path d="M8.2 3.2l2.6 2.6"/></g>
@@ -28,11 +27,11 @@
   <text x="112" y="261" font-size="16" font-weight="600" fill="#111827" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">shopping/</text>
   <rect x="290" y="241" width="121" height="30" rx="15" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/><g transform="translate(300 247)"><circle cx="9" cy="9" r="9" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/><rect x="4.5" y="6.5" width="9" height="7" rx="2" fill="#2563eb"/><path d="M9 6.5V4.3" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round"/><circle cx="9" cy="3.8" r="1" fill="#2563eb"/><circle cx="7.2" cy="9.8" r="1" fill="#ffffff"/><circle cx="10.8" cy="9.8" r="1" fill="#ffffff"/></g><text x="325" y="260.8" font-size="13" font-weight="600" fill="#1d4ed8">ai-agent</text><g transform="translate(387 249)" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l.6-3.2L9.6 1.8l2.6 2.6-7 7z"/><path d="M8.2 3.2l2.6 2.6"/></g>
   <rect x="423" y="241" width="174" height="30" rx="15" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/><g transform="translate(433 247)"><circle cx="9" cy="9" r="9" fill="#ffffff" stroke="#0d9488" stroke-width="1.2"/><circle cx="9" cy="7.2" r="2.8" fill="#0d9488"/><path d="M4 14.2a5 5 0 0 1 10 0z" fill="#0d9488"/></g><text x="458" y="260.8" font-size="13" font-weight="600" fill="#0f766e">shopper · 7 days</text><g transform="translate(573 249)" fill="none" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7s2.2-4.5 6-4.5S13 7 13 7s-2.2 4.5-6 4.5S1 7 1 7z"/><circle cx="7" cy="7" r="1.8"/></g>
-  <path transform="translate(78 299)" d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#f9fafb" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="112" y="313" font-size="16" font-weight="600" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">bank/</text>
+  <path transform="translate(78 299)" d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="112" y="313" font-size="16" font-weight="600" fill="#111827" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">bank/</text>
   <rect x="290" y="293" width="108" height="30" rx="15" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/><g transform="translate(300 301)" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"><rect x="2.5" y="6.5" width="9" height="6" rx="1.5"/><path d="M4.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></g><text x="321" y="312.8" font-size="13" font-weight="600" fill="#6b7280">Not shared</text>
-  <path transform="translate(78 351)" d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#f9fafb" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="112" y="365" font-size="16" font-weight="600" fill="#6b7280" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">passport/</text>
+  <path transform="translate(78 351)" d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="112" y="365" font-size="16" font-weight="600" fill="#111827" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">passport/</text>
   <rect x="290" y="345" width="108" height="30" rx="15" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/><g transform="translate(300 353)" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"><rect x="2.5" y="6.5" width="9" height="6" rx="1.5"/><path d="M4.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></g><text x="321" y="364.8" font-size="13" font-weight="600" fill="#6b7280">Not shared</text>
   </g>
 </svg>
