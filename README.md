@@ -4,30 +4,9 @@
 
 Self-hosted file storage with folder permissions for people, apps, and AI agents.
 
-**Weekly dinners, with your own AI agent.** Kids add food wishes to `wishes/`, and you add fridge notes to `fridge/`. The agent can read both, and read and write `plan/` and `shopping/`. The family reads the plan, and the shopper reads the list for seven days. The agent cannot open `bank/` or `passport/`.
+Give each one only the folders it needs: Read or Read + Write per path, with an expiry date. Use it from the web UI, REST, WebDAV, and MCP. Files are stored as plaintext at rest, and there is no S3-compatible API.
 
-![Weekly dinners: who can read and write which folder](docs/images/overview.svg)
-
-More ways to use it:
-
-- **Monthly budget**: drop receipts in `receipts/`, let an AI agent write `summary/`, and share only the summary with your partner.
-- **Kids' albums**: the family adds photos, an AI agent builds albums, and grandparents read only the albums.
-- **Backups**: give a backup script Read + Write on one folder and nothing else.
-
-How it works:
-
-- **API tokens**: choose a starting folder, Read or Read + Write for each path, and an expiry date. Other files stay hidden.
-- **MCP**: connect ChatGPT, Claude, or another MCP client through OAuth. Approve its folders and permissions in your browser.
-- **REST and WebDAV**: use an API token with scripts, Finder, or Windows Explorer.
-- **Self-hosted**: Docker Compose, PostgreSQL for metadata, files on storage you control.
-
-![API tokens](docs/images/tokens.png)
-
-API tokens for REST and WebDAV. MCP connections use browser approval.
-
-Files are stored as plaintext at rest, and there is no S3-compatible API.
-
-[Docs](docs/README.md) | [Contributing](CONTRIBUTING.md) | [MIT License](LICENSE)
+[Website](https://hrs23.github.io/s2/) | [Docs](docs/README.md) | [Contributing](CONTRIBUTING.md) | [MIT License](LICENSE)
 
 ## Getting started
 

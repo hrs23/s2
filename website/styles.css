@@ -160,6 +160,24 @@ h1 em {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   transform: rotate(1.2deg);
 }
+.token-window img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.flow {
+  grid-column: 1 / -1;
+  margin: 0;
+  overflow-x: auto;
+}
+.flow img {
+  display: block;
+  width: 100%;
+  min-width: 40rem;
+  height: auto;
+  border: 1px solid var(--line);
+  background: #fff;
+}
 .window-bar {
   min-height: 2.8rem;
   display: flex;
