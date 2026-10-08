@@ -261,22 +261,6 @@ h2 {
   font-size: 1.15rem;
   line-height: 1.65;
 }
-.scope-grid {
-  border-top: 1px solid var(--ink);
-}
-.scope-grid > div {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr auto;
-  gap: 1rem;
-  padding: 1.15rem 0;
-  border-bottom: 1px solid var(--line);
-  align-items: center;
-}
-.scope-grid code,
-.scope-grid span {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
 
 .interfaces {
   background: white;
@@ -387,10 +371,6 @@ footer > a:last-child {
   main > section {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-  .scope-grid > div {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
   }
   footer {
     align-items: flex-start;
