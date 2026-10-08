@@ -16,12 +16,17 @@ import { err, mapFileOpError, withAuth } from "~/lib/utils/http.server";
 
 type FileItem = components["schemas"]["FileItem"];
 
+function withTrailingSlash(request: Request, rawPath: string): string {
+  if (rawPath === "" || rawPath.endsWith("/")) return rawPath;
+  return new URL(request.url).pathname.endsWith("/") ? `${rawPath}/` : rawPath;
+}
+
 export function loader(args: LoaderFunctionArgs) {
   return withAuth(
     args,
     {},
     async ({ request, params, auth, services: { fileService } }) => {
-      const rawPath = params["*"] ?? "";
+      const rawPath = withTrailingSlash(request, params["*"] ?? "");
       const isDirectory =
         rawPath === "" ||
         stripLeadingSlashes(rawPath) === "" ||
@@ -123,7 +128,7 @@ export function action(args: ActionFunctionArgs) {
     args,
     {},
     async ({ request, params, auth, services: { fileService } }) => {
-      const rawPath = params["*"] ?? "";
+      const rawPath = withTrailingSlash(request, params["*"] ?? "");
       if (!isNonEmptyPath(rawPath)) return err(400, "File path is required");
       const name = rawPath.split("/").filter(Boolean).pop() ?? "";
 

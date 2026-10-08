@@ -105,6 +105,28 @@ describe("GET directory listing", () => {
     expect(body.items[0].size).toBeDefined();
   });
 
+  it("lists a directory when the router drops the trailing slash from the splat", async () => {
+    await action({
+      request: req("PUT", "docs/", { body: "" }),
+      context: ctx(),
+      params: { "*": "docs" },
+    });
+    await action({
+      request: req("PUT", "docs/a.txt", { body: "a" }),
+      context: ctx(),
+      params: { "*": "docs/a.txt" },
+    });
+
+    const res = await loader({
+      request: req("GET", "docs/"),
+      context: ctx(),
+      params: { "*": "docs" },
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.items.map((i) => i.name)).toEqual(["a.txt"]);
+  });
+
   it("returns 404 for non-existent directory", async () => {
     const res = await loader({
       request: req("GET", "nonexistent/"),
