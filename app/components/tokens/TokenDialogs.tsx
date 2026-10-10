@@ -741,7 +741,7 @@ export function TokenResultDialog({
     type: "webdav",
     url: webdavUrl,
     username: "s2",
-    token: result.token,
+    password: result.token,
   });
 
   return (
