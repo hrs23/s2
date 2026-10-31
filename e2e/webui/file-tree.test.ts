@@ -263,7 +263,11 @@ test("restoring a version reverts the file content", async ({ page }) => {
   // Restore v1
   await page.getByRole("button", { name: "Version history" }).click();
   await expect(page.getByText("Current")).toBeVisible({ timeout: 5_000 });
+  const restored = page.waitForResponse(
+    (r) => r.url().endsWith("/internal/files-restore") && r.ok(),
+  );
   await page.getByRole("button", { name: "Restore", exact: true }).click();
+  await restored;
 
   // Close and reopen — should show v1
   await page.getByRole("button", { name: "Close" }).click();
