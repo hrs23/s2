@@ -52,7 +52,7 @@ Stop the stack and copy `.env` and `./data` (`POSTGRES_DATA_PATH` and `S2_STORAG
 | `SIGNUP_ENABLED` | `false` | Self-service sign-up |
 | `PASSKEY_ENABLED` | `true` | Passkeys |
 | `TOTP_ENABLED` | `true` | TOTP and recovery codes |
-| `EMAIL_ENABLED` | `false` | Email verification and password reset; needs `SMTP_HOST`, `SMTP_FROM` (optional `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`) |
+| `EMAIL_ENABLED` | `false` | Email verification and password reset; needs `SMTP_HOST`, `SMTP_FROM` (optional `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`); without `SMTP_SECURE=true` the server must support STARTTLS |
 
 ### Maintenance
 
