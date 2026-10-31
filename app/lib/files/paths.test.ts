@@ -99,6 +99,12 @@ describe("validateClientPath", () => {
     expect(validateClientPath("..")).not.toBeNull();
     expect(validateClientPath("../etc/passwd")).not.toBeNull();
     expect(validateClientPath("docs/../../secret")).not.toBeNull();
+    expect(validateClientPath("docs/./a")).not.toBeNull();
+    expect(validateClientPath("%2e%2e")).not.toBeNull();
+    expect(validateClientPath("docs/%2E%2e/a")).not.toBeNull();
+    expect(validateClientPath("docs/.%2e")).not.toBeNull();
+    expect(validateClientPath("docs/%2e")).not.toBeNull();
+    expect(validateClientPath("docs/..a/.b/%2e%2e%2e")).toBeNull();
     expect(validateClientPath("foo/..")).not.toBeNull();
   });
 

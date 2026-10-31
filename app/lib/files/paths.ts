@@ -50,7 +50,9 @@ function validatePathTraversal(value: string): string | null {
   if (value.includes("\0")) return "Path must not contain null bytes";
   const segments = value.split("/");
   for (const seg of segments) {
-    if (seg === "..") return "Path must not contain '..'";
+    const dots = seg.replace(/%2e/gi, ".");
+    if (dots === "." || dots === "..")
+      return "Path must not contain '.' or '..'";
   }
   return null;
 }
