@@ -952,10 +952,6 @@ describe("cross-user session isolation", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// Token scope re-check after session creation
-// ---------------------------------------------------------------------------
-
 describe("token scope re-check after session creation", () => {
   const totalSize = CHUNK_SIZE + 10;
   const chunkData = () => [new ArrayBuffer(CHUNK_SIZE), new ArrayBuffer(10)];
