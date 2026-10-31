@@ -498,8 +498,9 @@ export function IssueOrRotateDialog({
           <Trans
             i18nKey={`${ns}.description`}
             ns="tokens"
-            values={{ name: apiToken.name }}
-            components={{ strong: <span className="font-medium" /> }}
+            components={{
+              strong: <span className="font-medium">{apiToken.name}</span>,
+            }}
           />
         </p>
         <ExpirySelector
@@ -546,8 +547,9 @@ export function DeleteConfirmDialog({
         <Trans
           i18nKey="deleteDialog.description"
           ns="tokens"
-          values={{ name: apiToken.name }}
-          components={{ strong: <span className="font-medium" /> }}
+          components={{
+            strong: <span className="font-medium">{apiToken.name}</span>,
+          }}
         />
       </p>
       <DialogFooter>

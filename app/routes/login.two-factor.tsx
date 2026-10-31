@@ -22,6 +22,7 @@ import { LandingFooter, LandingHeader } from "~/components/landing-content";
 import { pageTitle } from "~/i18n/meta";
 import { getRuntimeEnv } from "~/lib/app-load-context.server";
 import { isTotpEnabled } from "~/lib/auth/auth-feature-policy";
+import { sameOriginReturnTo } from "~/lib/auth/return-to";
 import { authClient } from "~/lib/auth.client";
 import type { Route } from "./+types/login.two-factor";
 
@@ -47,7 +48,9 @@ export default function LoginTwoFactorPage() {
 
   const target =
     typeof window !== "undefined"
-      ? (new URLSearchParams(window.location.search).get("returnTo") ?? "/")
+      ? sameOriginReturnTo(
+          new URLSearchParams(window.location.search).get("returnTo"),
+        )
       : "/";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

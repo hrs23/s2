@@ -38,6 +38,22 @@ function baseType(contentType: string): string {
   return contentType.split(";", 1)[0].trim().toLowerCase();
 }
 
+function hasMultipleValues(contentType: string): boolean {
+  let quoted = false;
+  for (let i = 0; i < contentType.length; i++) {
+    const c = contentType[i];
+    if (quoted) {
+      if (c === "\\") i++;
+      else if (c === '"') quoted = false;
+    } else if (c === ",") {
+      return true;
+    } else if (c === '"') {
+      quoted = true;
+    }
+  }
+  return false;
+}
+
 /**
  * Apply security headers to a file-content response. Always sets
  * `X-Content-Type-Options: nosniff`; sets `Content-Disposition` to `inline`
@@ -52,7 +68,10 @@ export function applyDownloadSecurityHeaders(
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set(
     "Content-Disposition",
-    INLINE_SAFE_TYPES.has(baseType(contentType)) ? "inline" : "attachment",
+    INLINE_SAFE_TYPES.has(baseType(contentType)) &&
+      !hasMultipleValues(contentType)
+      ? "inline"
+      : "attachment",
   );
   return headers;
 }

@@ -82,6 +82,12 @@ export function extractDavPath(url: string): string | null {
   return rest || "/";
 }
 
+export function stripTrailingSlashes(path: string): string {
+  let end = path.length;
+  while (end > 0 && path[end - 1] === "/") end--;
+  return path.slice(0, end);
+}
+
 // --- Error mapping ---
 
 function mapErrorToResponse(code: string): Response {
@@ -117,7 +123,7 @@ async function checkParentExists(
   davPath: string,
 ): Promise<Response | null> {
   // Compute the parent path by stripping the last segment
-  const trimmed = davPath.replace(/\/+$/, "");
+  const trimmed = stripTrailingSlashes(davPath);
   const lastSlash = trimmed.lastIndexOf("/");
   const parentPath = lastSlash <= 0 ? "/" : trimmed.slice(0, lastSlash);
 
@@ -513,8 +519,8 @@ async function handleCopy(
   // copyTree also enforces this, but the dav layer needs an explicit early
   // reject so the response code matches RFC 4918 conventions (403 Forbidden
   // for cycles on this protocol — see mapErrorToResponse).
-  const normSrc = davPath.replace(/\/+$/, "");
-  const normDest = destDavPath.replace(/\/+$/, "");
+  const normSrc = stripTrailingSlashes(davPath);
+  const normDest = stripTrailingSlashes(destDavPath);
   if (normDest.startsWith(`${normSrc}/`)) {
     return new Response("Conflict", { status: 409 });
   }

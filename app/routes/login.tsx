@@ -13,6 +13,7 @@ import {
 } from "~/lib/auth/auth-feature-policy";
 import {
   readReturnToCookie,
+  sameOriginReturnTo,
   setReturnToCookie,
   validateReturnTo,
 } from "~/lib/auth/return-to";
@@ -66,8 +67,9 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
     setError(null);
     setSubmitting(true);
     try {
-      const target =
-        new URLSearchParams(window.location.search).get("returnTo") ?? "/";
+      const target = sameOriginReturnTo(
+        new URLSearchParams(window.location.search).get("returnTo"),
+      );
       const { data, error } = await authClient.signIn.email({
         email,
         password,
@@ -103,8 +105,9 @@ export default function LoginPage({ loaderData }: Route.ComponentProps) {
     setError(null);
     setSubmitting(true);
     try {
-      const target =
-        new URLSearchParams(window.location.search).get("returnTo") ?? "/";
+      const target = sameOriginReturnTo(
+        new URLSearchParams(window.location.search).get("returnTo"),
+      );
       // signIn.passkey() returns { error } on failure; on success the session
       // cookie is set and we trigger a full reload to /target so loaders re-run.
       const result = await authClient.signIn.passkey();

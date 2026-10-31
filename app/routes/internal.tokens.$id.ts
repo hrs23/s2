@@ -2,10 +2,10 @@
 // (name / base_path / can_delegate). Bearer is rejected at the middleware edge.
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, readJson, withAuth } from "~/lib/utils/http.server";
+import { err, readJson, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "PATCH" },
     async ({ request, params, auth, services: { tokenService } }) => {

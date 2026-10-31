@@ -9,11 +9,11 @@ import {
   err,
   mapFileOpError,
   readJson,
-  withAuth,
+  withUserAuth,
 } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "POST" },
     async ({ request, auth, services: { fileService } }) => {

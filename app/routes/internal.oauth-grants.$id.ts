@@ -5,10 +5,10 @@
 
 import type { ActionFunctionArgs } from "react-router";
 import { trimAccessPathRows } from "~/lib/access-paths/validate";
-import { err, readJson, withAuth } from "~/lib/utils/http.server";
+import { err, readJson, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     {},
     async ({ request, params, auth, services: { oauthService } }) => {

@@ -1,10 +1,10 @@
 // PUT /internal/tokens/:id/access-paths — Replace all access paths (cookie-only)
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, readJson, withAuth } from "~/lib/utils/http.server";
+import { err, readJson, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "PUT" },
     async ({ request, params, auth, services: { tokenService } }) => {

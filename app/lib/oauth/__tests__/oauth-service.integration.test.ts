@@ -1244,6 +1244,142 @@ describe("refresh reuse detection", () => {
     });
     expect(r3.ok).toBe(true);
   });
+
+  it("rejects a wrong-client retry within the grace window without rotating or cascading", async () => {
+    const OTHER_CLIENT_ID = "test-client-other";
+    await testEnv.db.execute(
+      `INSERT INTO oauth_clients (id, client_name, redirect_uris, token_endpoint_auth_method)
+       VALUES ($1, 'Other Client', ARRAY[$2], 'none')`,
+      [OTHER_CLIENT_ID, REDIRECT_URI],
+    );
+
+    const { code, verifier } = await happyPathAuthorize();
+    const first = await service.exchangeCode({
+      code,
+      redirectUri: REDIRECT_URI,
+      codeVerifier: verifier,
+      clientId: CLIENT_ID,
+    });
+    if (!first.ok || !first.value.refresh_token) throw new Error("setup");
+    const oldRefresh = first.value.refresh_token;
+
+    const r1 = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: CLIENT_ID,
+    });
+    if (!r1.ok || !r1.value.refresh_token) throw new Error("r1");
+    const child = r1.value.refresh_token;
+
+    const wrong = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: OTHER_CLIENT_ID,
+    });
+    if (wrong.ok) throw new Error("expected error");
+    expect(wrong.error.error).toBe("invalid_grant");
+    expect(wrong.error.error_description).toBe("client mismatch");
+
+    const grants = await testEnv.db.query(
+      "SELECT id FROM grants WHERE user_id = $1",
+      [USER_ID],
+    );
+    expect(grants).toHaveLength(1);
+
+    const childRows = await testEnv.db.query<{
+      used_at: string | null;
+      revoked_at: string | null;
+    }>("SELECT used_at, revoked_at FROM refresh_tokens WHERE token_hash = $1", [
+      await hashToken(child),
+    ]);
+    expect(childRows).toHaveLength(1);
+    expect(childRows[0].used_at).toBeNull();
+    expect(childRows[0].revoked_at).toBeNull();
+
+    const r2 = await service.refreshAccessToken({
+      refreshToken: child,
+      clientId: CLIENT_ID,
+    });
+    expect(r2.ok).toBe(true);
+  });
+
+  it("rejects a grace-window retry with a mismatched resource without rotating", async () => {
+    const { code, verifier } = await happyPathAuthorize();
+    const first = await service.exchangeCode({
+      code,
+      redirectUri: REDIRECT_URI,
+      codeVerifier: verifier,
+      clientId: CLIENT_ID,
+    });
+    if (!first.ok || !first.value.refresh_token) throw new Error("setup");
+    const oldRefresh = first.value.refresh_token;
+
+    const r1 = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: CLIENT_ID,
+    });
+    if (!r1.ok || !r1.value.refresh_token) throw new Error("r1");
+    const child = r1.value.refresh_token;
+
+    const mismatched = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: CLIENT_ID,
+      resource: "http://localhost:8787/mcp",
+    });
+    if (mismatched.ok) throw new Error("expected error");
+    expect(mismatched.error.error).toBe("invalid_target");
+
+    const grants = await testEnv.db.query(
+      "SELECT id FROM grants WHERE user_id = $1",
+      [USER_ID],
+    );
+    expect(grants).toHaveLength(1);
+
+    const childRows = await testEnv.db.query<{
+      used_at: string | null;
+      revoked_at: string | null;
+    }>("SELECT used_at, revoked_at FROM refresh_tokens WHERE token_hash = $1", [
+      await hashToken(child),
+    ]);
+    expect(childRows).toHaveLength(1);
+    expect(childRows[0].used_at).toBeNull();
+    expect(childRows[0].revoked_at).toBeNull();
+
+    const r2 = await service.refreshAccessToken({
+      refreshToken: child,
+      clientId: CLIENT_ID,
+    });
+    expect(r2.ok).toBe(true);
+  });
+
+  it("re-rotates within the grace window even if the consumed token has since expired", async () => {
+    const { code, verifier } = await happyPathAuthorize();
+    const first = await service.exchangeCode({
+      code,
+      redirectUri: REDIRECT_URI,
+      codeVerifier: verifier,
+      clientId: CLIENT_ID,
+    });
+    if (!first.ok || !first.value.refresh_token) throw new Error("setup");
+    const oldRefresh = first.value.refresh_token;
+
+    const r1 = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: CLIENT_ID,
+    });
+    expect(r1.ok).toBe(true);
+
+    await testEnv.db.execute(
+      "UPDATE refresh_tokens SET expires_at = now() - interval '1 second' WHERE token_hash = $1",
+      [await hashToken(oldRefresh)],
+    );
+
+    const r2 = await service.refreshAccessToken({
+      refreshToken: oldRefresh,
+      clientId: CLIENT_ID,
+    });
+    if (!r2.ok)
+      throw new Error(`grace retry failed: ${r2.error.error_description}`);
+    expect(r2.value.refresh_token).toBeDefined();
+  });
 });
 
 // ---------------------------------------------------------------------------

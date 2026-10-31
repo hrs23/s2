@@ -564,10 +564,12 @@ export class OAuthService {
           "refresh token reuse detected; grant revoked",
         );
       }
-      return this.rotateWithinGrace(row);
     }
 
-    if (new Date(row.expires_at).getTime() < Date.now()) {
+    if (
+      row.used_at === null &&
+      new Date(row.expires_at).getTime() < Date.now()
+    ) {
       return errResult("invalid_grant", "refresh token expired");
     }
 
@@ -597,6 +599,8 @@ export class OAuthService {
         );
       }
     }
+
+    if (row.used_at !== null) return this.rotateWithinGrace(row);
 
     const accessTokenPlain = generateS2Token();
     const refreshTokenPlain = generateS2Token();

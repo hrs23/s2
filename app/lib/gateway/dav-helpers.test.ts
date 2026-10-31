@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { splitPath } from "~/lib/files/paths";
-import { extractDavPath, parseBasicAuth } from "./dav";
+import { extractDavPath, parseBasicAuth, stripTrailingSlashes } from "./dav";
 
 describe("parseBasicAuth", () => {
   function req(authHeader?: string): Request {
@@ -70,6 +70,40 @@ describe("extractDavPath", () => {
 
   it("preserves trailing slash", () => {
     expect(extractDavPath("http://localhost/dav/folder/")).toBe("/folder/");
+  });
+});
+
+describe("stripTrailingSlashes", () => {
+  it("matches the trailing-slash regex result", () => {
+    const inputs = [
+      "",
+      "/",
+      "//",
+      "///",
+      "a",
+      "/a",
+      "/a/",
+      "/a//",
+      "/a/b",
+      "/a/b/",
+      "/a//b///",
+      "a/",
+      "/a/b/\n",
+      "/a/\n/",
+      "/fo/o/ /",
+    ];
+    for (const input of inputs) {
+      expect(stripTrailingSlashes(input)).toBe(input.replace(/\/+$/, ""));
+    }
+  });
+
+  it("handles a long run of slashes followed by a character in linear time", () => {
+    const n = 200_000;
+    const input = `/a${"/".repeat(n)}b`;
+    const start = performance.now();
+    expect(stripTrailingSlashes(input)).toBe(input);
+    expect(stripTrailingSlashes(`${input}${"/".repeat(n)}`)).toBe(input);
+    expect(performance.now() - start).toBeLessThan(1000);
   });
 });
 

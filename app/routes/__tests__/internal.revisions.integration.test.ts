@@ -1,19 +1,16 @@
 // @ts-nocheck
 //
 // Integration tests for /internal/revisions GET (list) + /internal/files-restore
-// (POST). These endpoints are cookie-only via the app/lib/gateway/middleware.ts middleware
-// in production; we exercise the handlers directly with Bearer auth context
-// here because the service-layer accepts both auth types — the middleware
-// rejection is covered by app/lib/gateway/middleware.test.ts.
+// (POST). These endpoints are cookie-only; we exercise the handlers directly
+// with a session cookie.
 
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import {
-  bearerHeader,
   cleanTestEnv,
   createTestEnv,
   createTestUser,
   disposeTestEnv,
-  issueTestToken,
+  sessionCookieHeader,
   type TestEnv,
   testLoadContext,
 } from "~/test/integration-helpers";
@@ -22,7 +19,7 @@ import { action as restoreAction } from "../internal.files-restore";
 import { loader as versionsLoader } from "../internal.revisions";
 
 let testEnv: TestEnv;
-let token: string;
+let cookie: string;
 const USER_ID = "user_versions_test";
 
 function ctx() {
@@ -34,12 +31,12 @@ function req(
   url: string,
   opts: { body?: BodyInit; headers?: Record<string, string> } = {},
 ): Request {
+  const h = new Headers();
+  h.set("Cookie", cookie);
+  for (const [k, v] of Object.entries(opts.headers ?? {})) h.set(k, v);
   return new Request(`http://localhost${url}`, {
     method,
-    headers: {
-      Authorization: bearerHeader(token),
-      ...opts.headers,
-    },
+    headers: h,
     body: opts.body,
   });
 }
@@ -69,8 +66,7 @@ beforeEach(async () => {
     id: USER_ID,
     limits: { revision_limit: 30 },
   });
-  const tok = await issueTestToken(testEnv.db, { userId: user.id });
-  token = tok.rawToken;
+  cookie = await sessionCookieHeader(user.id, testEnv.env);
 });
 
 describe("GET /internal/revisions?path=...", () => {

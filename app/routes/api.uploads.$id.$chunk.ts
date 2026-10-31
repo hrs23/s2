@@ -44,6 +44,7 @@ export async function action({ request, context, params }: ActionFunctionArgs) {
     const statusMap = {
       bad_request: 400,
       not_found: 404,
+      forbidden: 403,
       conflict: 409,
       expired: 410,
       too_large: 413,

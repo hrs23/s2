@@ -3,10 +3,11 @@
 //
 // Why a thin route rather than directly hitting /api/auth/sign-out: that
 // endpoint is POST-only and Better Auth answers with JSON, not a redirect.
-// Server-rendered <a href="/logout"> stays a single GET click for the user.
+// The dashboard's <form method="post" action="/logout"> stays a single click.
 
 import { redirect } from "react-router";
 import { getRuntimeEnv } from "~/lib/app-load-context.server";
+import { checkSameOrigin } from "~/lib/auth/origin-check.server";
 import { createAuth } from "~/lib/auth.server";
 import type { Route } from "./+types/logout";
 
@@ -29,10 +30,14 @@ async function handleSignOut(request: Request, env: Env): Promise<Response> {
   return redirect("/login", { headers: out });
 }
 
-export async function loader({ request, context }: Route.LoaderArgs) {
-  return handleSignOut(request, getRuntimeEnv(context));
+export async function loader() {
+  return redirect("/");
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
-  return handleSignOut(request, getRuntimeEnv(context));
+  const env = getRuntimeEnv(context);
+  if (!checkSameOrigin(request, env.APP_URL).ok) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  return handleSignOut(request, env);
 }

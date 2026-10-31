@@ -7,10 +7,10 @@ import {
   isPasskeyEnabled,
   isTotpEnabled,
 } from "~/lib/auth/auth-feature-policy";
-import { err, withAuth } from "~/lib/utils/http.server";
+import { err, withUserAuth } from "~/lib/utils/http.server";
 
 export function loader(args: LoaderFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     {},
     async ({ env, auth, services: { db, userRepo } }) => {

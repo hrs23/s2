@@ -78,6 +78,42 @@ describe("edge middleware", () => {
     ).toBe(403);
   });
 
+  it.each([
+    "/Internal/tokens",
+    "/INTERNAL/account",
+    "/%69nternal/tokens",
+    "/%49NTERNAL/tokens/x/rotate",
+    "/internal%2Ftokens",
+    "/Internal/tokens/%ZZ",
+  ])("/internal/* rejects Bearer on case or encoding variant %s", (pathname) => {
+    expect(
+      shouldReject(
+        {
+          pathname,
+          method: "GET",
+          headers: { Authorization: "Bearer s2_abc" },
+        },
+        APP,
+      ),
+    ).toBe(403);
+  });
+
+  it.each([
+    "/internals/x",
+    "/api/v1/files/Internal/x",
+  ])("Bearer is not rejected on non-internal path %s", (pathname) => {
+    expect(
+      shouldReject(
+        {
+          pathname,
+          method: "GET",
+          headers: { Authorization: "Bearer s2_abc" },
+        },
+        APP,
+      ),
+    ).toBeNull();
+  });
+
   it("/internal/* allows cookie GET", () => {
     expect(
       shouldReject(

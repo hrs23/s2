@@ -99,9 +99,17 @@ describe("list tokens", () => {
     expect(res.status).toBe(401);
   });
 
-  // Bearer rejection on /internal/* is enforced by app/lib/gateway/middleware.ts middleware
-  // (covered by app/lib/gateway/middleware.test.ts), not by the handler. Integration
-  // tests bypass middleware so we don't re-test that here.
+  it("returns 403 for a Bearer token", async () => {
+    const tok = await issueTestToken(testEnv.db, { userId: USER_ID });
+    const res = await loader({
+      request: new Request("http://localhost/Internal/tokens", {
+        headers: { Authorization: `Bearer ${tok.rawToken}` },
+      }),
+      context: ctx(),
+      params: {},
+    });
+    expect(res.status).toBe(403);
+  });
 });
 
 // ── PATCH /internal/tokens/:id ───────────────────────────
@@ -432,6 +440,42 @@ describe("replace access paths", () => {
   });
 });
 
-// Bearer rejection on /internal/* is enforced by app/lib/gateway/middleware.ts middleware
-// (covered by app/lib/gateway/middleware.test.ts). Integration tests bypass the
-// middleware so we don't re-test that contract at the handler level.
+describe("Bearer on token mutators", () => {
+  it("rotate returns 403 for a Bearer token", async () => {
+    const tok = await issueTestToken(testEnv.db, { userId: USER_ID });
+    const res = await rotateAction({
+      request: new Request(
+        `http://localhost/%69nternal/tokens/${tokenId}/rotate`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${tok.rawToken}` },
+        },
+      ),
+      context: ctx(),
+      params: { id: tokenId },
+    });
+    expect(res.status).toBe(403);
+  });
+
+  it("access-paths returns 403 for a Bearer token", async () => {
+    const tok = await issueTestToken(testEnv.db, { userId: USER_ID });
+    const res = await accessPathsAction({
+      request: new Request(
+        `http://localhost/Internal/tokens/${tok.id}/access-paths`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${tok.rawToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access_paths: [{ path: "", access: "write" }],
+          }),
+        },
+      ),
+      context: ctx(),
+      params: { id: tok.id },
+    });
+    expect(res.status).toBe(403);
+  });
+});

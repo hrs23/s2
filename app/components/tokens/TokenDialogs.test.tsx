@@ -26,6 +26,28 @@ const mockToken: ApiToken = {
   token_expires_at: "2026-06-21T00:00:00.000Z",
 };
 
+const displayedNames = [
+  "my-service",
+  'x</strong><strong className="injected">y',
+  "{{escapeValue}}",
+  "{{interpolation}}",
+  "{{name}}",
+  "a < b",
+  "&amp;",
+];
+
+function expectDescriptionWithName(text: string, name: string) {
+  const paragraph = screen.getByText(
+    (_, el) => el?.tagName === "P" && el.textContent === text,
+  );
+  const elements = paragraph.querySelectorAll("*");
+  expect(elements).toHaveLength(1);
+  expect(elements[0].tagName).toBe("SPAN");
+  expect(elements[0].getAttribute("class")).toBe("font-medium");
+  expect(elements[0].textContent).toBe(name);
+  expect(document.querySelector(".injected")).toBeNull();
+}
+
 // ---------------------------------------------------------------------------
 // CreateTokenDialog
 // ---------------------------------------------------------------------------
@@ -576,6 +598,39 @@ describe("IssueOrRotateDialog", () => {
     // Should not have destructive variant (no bg-destructive class)
     expect(issueBtn.className).not.toMatch(/destructive/);
   });
+
+  it.each(displayedNames)("renders rotate name %j as stored", (name) => {
+    render(
+      <IssueOrRotateDialog
+        apiToken={{ ...mockToken, name }}
+        onConfirm={() => {}}
+        onCancel={() => {}}
+      />,
+    );
+    expectDescriptionWithName(
+      `The existing token for ${name} will be revoked. Applications using this token will lose access.`,
+      name,
+    );
+  });
+
+  it.each(displayedNames)("renders issue name %j as stored", (name) => {
+    render(
+      <IssueOrRotateDialog
+        apiToken={{
+          ...mockToken,
+          name,
+          has_active_secret: false,
+          token_expires_at: null,
+        }}
+        onConfirm={() => {}}
+        onCancel={() => {}}
+      />,
+    );
+    expectDescriptionWithName(
+      `A new token will be generated for ${name}.`,
+      name,
+    );
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -639,6 +694,20 @@ describe("DeleteConfirmDialog", () => {
 
     await user.click(screen.getByRole("button", { name: /cancel/i }));
     expect(onCancel).toHaveBeenCalled();
+  });
+
+  it.each(displayedNames)("renders delete name %j as stored", (name) => {
+    render(
+      <DeleteConfirmDialog
+        apiToken={{ ...mockToken, name }}
+        onConfirm={() => {}}
+        onCancel={() => {}}
+      />,
+    );
+    expectDescriptionWithName(
+      `Are you sure you want to delete ${name}? This action cannot be undone.`,
+      name,
+    );
   });
 });
 

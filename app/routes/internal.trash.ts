@@ -2,10 +2,10 @@
 // DELETE /internal/trash — Empty all trash (cookie-only)
 
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { withAuth } from "~/lib/utils/http.server";
+import { withUserAuth } from "~/lib/utils/http.server";
 
 export function loader(args: LoaderFunctionArgs) {
-  return withAuth(args, {}, async ({ auth, services: { fileService } }) => {
+  return withUserAuth(args, {}, async ({ auth, services: { fileService } }) => {
     const { items } = await fileService.listTrash(auth);
 
     return Response.json({
@@ -21,7 +21,7 @@ export function loader(args: LoaderFunctionArgs) {
 }
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "DELETE" },
     async ({ auth, services: { fileService } }) => {

@@ -34,6 +34,16 @@ export function validateReturnTo(
   return value;
 }
 
+export function sameOriginReturnTo(value: string | null): string {
+  if (value === null) return "/";
+  try {
+    const url = new URL(value, window.location.href);
+    return url.origin === window.location.origin ? value : "/";
+  } catch {
+    return "/";
+  }
+}
+
 export function setReturnToCookie(value: string): string {
   return `${COOKIE_NAME}=${encodeURIComponent(value)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${TTL_SECONDS}`;
 }

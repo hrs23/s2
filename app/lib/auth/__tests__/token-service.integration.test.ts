@@ -289,6 +289,12 @@ describe("create (token auth / delegation)", () => {
       },
       tx,
     );
+    await tokenRepo.writeSecret(
+      "parent_tok",
+      "parent_tok_hash",
+      new Date(Date.now() + 86400_000).toISOString(),
+      tx,
+    );
     const auth = tokenAuth({
       tokenId: "parent_tok",
       basePath: "/",
@@ -397,6 +403,141 @@ describe("create (token auth / delegation)", () => {
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.code).toBe("scope_violation");
+  });
+
+  it("caps child expiry at the parent's expiry", async () => {
+    const parent = await service.create(userAuth(), {
+      name: "Short Parent",
+      can_delegate: true,
+      expires_in_days: 1,
+      access_paths: [{ path: "", access: "write" }],
+    });
+    expect(parent.ok).toBe(true);
+    if (!parent.ok) return;
+
+    const child = await service.create(
+      tokenAuth({ tokenId: parent.token.id }),
+      {
+        name: "Long Child",
+        can_delegate: true,
+        expires_in_days: 365,
+        access_paths: [{ path: "", access: "write" }],
+      },
+    );
+    expect(child.ok).toBe(true);
+    if (!child.ok) return;
+    expect(new Date(child.expires_at).getTime()).toBe(
+      new Date(parent.expires_at).getTime(),
+    );
+
+    const list = await service.list(USER_ID);
+    const row = list.tokens.find((t) => t.id === child.token.id);
+    expect(new Date(row?.token_expires_at ?? 0).getTime()).toBe(
+      new Date(parent.expires_at).getTime(),
+    );
+  });
+
+  it("caps default child expiry at the parent's expiry", async () => {
+    const parent = await service.create(userAuth(), {
+      name: "Short Parent",
+      can_delegate: true,
+      expires_in_days: 1,
+      access_paths: [{ path: "", access: "write" }],
+    });
+    expect(parent.ok).toBe(true);
+    if (!parent.ok) return;
+
+    const child = await service.create(
+      tokenAuth({ tokenId: parent.token.id }),
+      {
+        name: "Default Child",
+        access_paths: [{ path: "", access: "read" }],
+      },
+    );
+    expect(child.ok).toBe(true);
+    if (!child.ok) return;
+    expect(new Date(child.expires_at).getTime()).toBe(
+      new Date(parent.expires_at).getTime(),
+    );
+  });
+
+  it("keeps requested child expiry when shorter than the parent's", async () => {
+    const parent = await service.create(userAuth(), {
+      name: "Long Parent",
+      can_delegate: true,
+      expires_in_days: 30,
+      access_paths: [{ path: "", access: "write" }],
+    });
+    expect(parent.ok).toBe(true);
+    if (!parent.ok) return;
+
+    const child = await service.create(
+      tokenAuth({ tokenId: parent.token.id }),
+      {
+        name: "Short Child",
+        expires_in_days: 7,
+        access_paths: [{ path: "", access: "read" }],
+      },
+    );
+    expect(child.ok).toBe(true);
+    if (!child.ok) return;
+    const expected = Date.now() + 7 * 86400_000;
+    expect(
+      Math.abs(new Date(child.expires_at).getTime() - expected),
+    ).toBeLessThan(5000);
+  });
+
+  it("rejects delegation when the parent has no active secret", async () => {
+    const parent = await service.create(userAuth(), {
+      name: "Revoked Parent",
+      can_delegate: true,
+      access_paths: [{ path: "", access: "write" }],
+    });
+    expect(parent.ok).toBe(true);
+    if (!parent.ok) return;
+    const revoked = await service.revoke(USER_ID, parent.token.id);
+    expect(revoked.ok).toBe(true);
+
+    const child = await service.create(
+      tokenAuth({ tokenId: parent.token.id }),
+      {
+        name: "Orphan",
+        access_paths: [{ path: "", access: "read" }],
+      },
+    );
+    expect(child.ok).toBe(false);
+    if (child.ok) return;
+    expect(child.code).toBe("no_delegate_permission");
+
+    const list = await service.list(USER_ID);
+    expect(list.tokens.map((t) => t.id)).toEqual([parent.token.id]);
+  });
+
+  it("rejects delegation when the parent's secret has expired", async () => {
+    const parent = await service.create(userAuth(), {
+      name: "Expired Parent",
+      can_delegate: true,
+      access_paths: [{ path: "", access: "write" }],
+    });
+    expect(parent.ok).toBe(true);
+    if (!parent.ok) return;
+    await tokenRepo.writeSecret(
+      parent.token.id,
+      "expired_parent_hash",
+      new Date(Date.now() - 1000).toISOString(),
+      tx,
+    );
+
+    const child = await service.create(
+      tokenAuth({ tokenId: parent.token.id }),
+      {
+        name: "Orphan",
+        access_paths: [{ path: "", access: "read" }],
+      },
+    );
+    expect(child.ok).toBe(false);
+    if (child.ok) return;
+    expect(child.code).toBe("no_delegate_permission");
   });
 });
 

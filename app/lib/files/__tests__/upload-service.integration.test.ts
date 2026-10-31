@@ -951,3 +951,183 @@ describe("cross-user session isolation", () => {
     expect(ownCancel.ok).toBe(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Token scope re-check after session creation
+// ---------------------------------------------------------------------------
+
+describe("token scope re-check after session creation", () => {
+  const totalSize = CHUNK_SIZE + 10;
+  const chunkData = () => [new ArrayBuffer(CHUNK_SIZE), new ArrayBuffer(10)];
+
+  async function uploadAll(
+    svc: UploadService,
+    auth: AuthContext,
+    sessionId: string,
+  ) {
+    const chunks = chunkData();
+    for (let i = 0; i < chunks.length; i++) {
+      const r = await svc.uploadChunk(auth, sessionId, i, chunks[i]);
+      expect(r.ok).toBe(true);
+    }
+  }
+
+  async function moveNode(nodeId: string, parentSegments: string[]) {
+    const repo = new FileNodeRepository();
+    await db.withUserWriteTx(userId, async (tx) => {
+      const node = await repo.getNode(userId, nodeId, tx);
+      if (!node) throw new Error("node missing");
+      const { nodeId: parentId } = await repo.resolveOrCreate(
+        { userId, segments: parentSegments, isDirectory: true },
+        tx,
+      );
+      await repo.moveNode(userId, nodeId, parentId, node.name, tx);
+    });
+  }
+
+  async function nodeAndSession(nodeId: string, sessionId: string) {
+    const node = await db.queryOne<{ content_version: number }>(
+      "SELECT content_version FROM file_nodes WHERE id = $1",
+      [nodeId],
+    );
+    const session = await db.queryOne<{ status: string }>(
+      "SELECT status FROM upload_sessions WHERE id = $1",
+      [sessionId],
+    );
+    return {
+      contentVersion: node?.content_version,
+      status: session?.status,
+    };
+  }
+
+  it("in-scope token completes a multi-chunk upload", async () => {
+    const svc = buildService();
+    const auth = tokenAuthScoped();
+    const create = await svc.createSession(auth, {
+      rawPath: "allowed/contract.bin",
+      totalSize,
+    });
+    expect(create.ok).toBe(true);
+    if (!create.ok) return;
+
+    await uploadAll(svc, auth, create.sessionId);
+    const complete = await svc.completeSession(auth, create.sessionId);
+    expect(complete.ok).toBe(true);
+    if (!complete.ok) return;
+    expect(complete.chunkCount).toBe(2);
+  });
+
+  it("token with an NFD base_path completes an in-scope multi-chunk upload", async () => {
+    const svc = buildService();
+    const auth: AuthContext = {
+      type: "token",
+      user_id: userId,
+      token_id: "tok_nfd_base",
+      base_path: "/café/が",
+      can_delegate: false,
+      access_paths: [{ path: "", access: "write" }],
+      resource: null,
+    };
+    const create = await svc.createSession(auth, {
+      rawPath: "notes.bin",
+      totalSize,
+    });
+    expect(create.ok).toBe(true);
+    if (!create.ok) return;
+
+    await uploadAll(svc, auth, create.sessionId);
+    const complete = await svc.completeSession(auth, create.sessionId);
+    expect(complete.ok).toBe(true);
+    if (!complete.ok) return;
+    expect(complete.chunkCount).toBe(2);
+  });
+
+  it("cookie user completes after the target is moved", async () => {
+    const svc = buildService();
+    const create = await svc.createSession(userAuth(), {
+      rawPath: "allowed/contract.bin",
+      totalSize,
+    });
+    expect(create.ok).toBe(true);
+    if (!create.ok) return;
+
+    await uploadAll(svc, userAuth(), create.sessionId);
+    await moveNode(create.nodeId, ["archive"]);
+
+    const complete = await svc.completeSession(userAuth(), create.sessionId);
+    expect(complete.ok).toBe(true);
+  });
+
+  it("rejects chunk and complete after the target is moved out of scope", async () => {
+    const svc = buildService();
+    const auth = tokenAuthScoped();
+    const create = await svc.createSession(auth, {
+      rawPath: "allowed/contract.bin",
+      totalSize,
+    });
+    expect(create.ok).toBe(true);
+    if (!create.ok) return;
+
+    await uploadAll(svc, auth, create.sessionId);
+    const before = await nodeAndSession(create.nodeId, create.sessionId);
+
+    await moveNode(create.nodeId, ["archive"]);
+
+    const chunk = await svc.uploadChunk(
+      auth,
+      create.sessionId,
+      1,
+      new ArrayBuffer(10),
+    );
+    expect(chunk.ok).toBe(false);
+    if (!chunk.ok) expect(chunk.code).toBe("forbidden");
+
+    const complete = await svc.completeSession(auth, create.sessionId);
+    expect(complete.ok).toBe(false);
+    if (!complete.ok) expect(complete.code).toBe("forbidden");
+
+    const after = await nodeAndSession(create.nodeId, create.sessionId);
+    expect(after.contentVersion).toBe(before.contentVersion);
+    expect(after.status).toBe("active");
+  });
+
+  it("rejects chunk and complete after the token is narrowed to read", async () => {
+    const svc = buildService();
+    const create = await svc.createSession(tokenAuthScoped(), {
+      rawPath: "allowed/contract.bin",
+      totalSize,
+    });
+    expect(create.ok).toBe(true);
+    if (!create.ok) return;
+
+    await uploadAll(svc, tokenAuthScoped(), create.sessionId);
+    const before = await nodeAndSession(create.nodeId, create.sessionId);
+
+    const narrowed: AuthContext = {
+      type: "token",
+      user_id: userId,
+      token_id: "tok_scoped",
+      base_path: "/",
+      can_delegate: false,
+      access_paths: [{ path: "allowed", access: "read" }],
+      resource: null,
+    };
+
+    const chunk = await svc.uploadChunk(
+      narrowed,
+      create.sessionId,
+      1,
+      new ArrayBuffer(10),
+    );
+    expect(chunk.ok).toBe(false);
+    if (!chunk.ok) expect(chunk.code).toBe("forbidden");
+
+    const complete = await svc.completeSession(narrowed, create.sessionId);
+    expect(complete.ok).toBe(false);
+    if (!complete.ok) expect(complete.code).toBe("forbidden");
+
+    const after = await nodeAndSession(create.nodeId, create.sessionId);
+    expect(after.contentVersion).toBe(before.contentVersion);
+    expect(after.status).toBe("active");
+  });
+});

@@ -4,7 +4,7 @@
 // same error mapping. Centralizing avoids drift between the two routes.
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, readJson, withAuth } from "~/lib/utils/http.server";
+import { err, readJson, withUserAuth } from "~/lib/utils/http.server";
 
 export type SecretLifecycleOp = "issue" | "rotate";
 
@@ -12,7 +12,7 @@ export function handleSecretLifecycle(
   args: ActionFunctionArgs,
   op: SecretLifecycleOp,
 ): Promise<Response> {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "POST" },
     async ({ request, params, auth, services: { tokenService } }) => {

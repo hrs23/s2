@@ -123,6 +123,26 @@ export async function withAuth<A extends RouteArgs>(
   return fn({ ...args, env, auth, services });
 }
 
+export function withUserAuth<A extends RouteArgs>(
+  args: A,
+  opts: { method?: string },
+  fn: (
+    ctx: A & {
+      env: Env;
+      auth: Extract<AuthContext, { type: "user" }>;
+      services: ServiceContainer;
+    },
+  ) => Promise<Response> | Response,
+): Promise<Response> {
+  return withAuth(args, opts, (ctx) => {
+    const { auth } = ctx;
+    if (auth.type !== "user") {
+      return err(403, "Bearer not accepted on /internal/*");
+    }
+    return fn({ ...ctx, auth });
+  });
+}
+
 /** Parse a JSON request body; on failure returns a ready 400 response. */
 export async function readJson<T>(
   request: Request,

@@ -14,7 +14,7 @@
 // asserts these invariants — break it intentionally if you mean to change them.
 
 import { passkey } from "@better-auth/passkey";
-import { betterAuth } from "better-auth";
+import { betterAuth, type SecondaryStorage } from "better-auth";
 import { twoFactor } from "better-auth/plugins/two-factor";
 import type pg from "pg";
 import { createAuthEmailHandlers } from "~/lib/auth/auth-email.server";
@@ -124,7 +124,7 @@ function buildAuth(env: Env) {
     basePath: "/api/auth",
     secret: env.AUTH_SECRET,
     database: pool,
-    secondaryStorage: env.AUTH_STORAGE,
+    secondaryStorage: withDatabaseSessionCheck(env.AUTH_STORAGE, pool),
     trustedOrigins,
     emailAndPassword: {
       enabled: true,
@@ -285,4 +285,31 @@ function buildAuth(env: Env) {
       },
     },
   });
+}
+
+function withDatabaseSessionCheck(
+  storage: SecondaryStorage,
+  pool: pg.Pool,
+): SecondaryStorage {
+  return {
+    ...storage,
+    async get(key) {
+      const value = await storage.get(key);
+      if (!isCachedSession(key, value)) return value;
+      const result = await pool.query(
+        'SELECT 1 FROM "session" WHERE token = $1',
+        [key],
+      );
+      return result.rows.length > 0 ? value : null;
+    },
+  };
+}
+
+function isCachedSession(key: string, value: unknown): boolean {
+  try {
+    const entry = typeof value === "string" ? JSON.parse(value) : value;
+    return entry?.session?.token === key;
+  } catch {
+    return false;
+  }
 }

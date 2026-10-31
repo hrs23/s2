@@ -3,10 +3,10 @@
 // physically separated from the AI-reachable /api/v1/* surface.
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, withAuth } from "~/lib/utils/http.server";
+import { err, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "DELETE" },
     async ({ params, auth, services: { fileService } }) => {

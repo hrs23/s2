@@ -4,6 +4,15 @@
 const INTERNAL_PREFIX = "/internal/";
 const INTERNAL_ROOT = "/internal";
 
+function canonicalPath(path: string): string {
+  try {
+    return decodeURIComponent(path).toLowerCase();
+  } catch {
+    return path.toLowerCase();
+  }
+}
+
 export function isInternal(path: string): boolean {
-  return path === INTERNAL_ROOT || path.startsWith(INTERNAL_PREFIX);
+  const canonical = canonicalPath(path);
+  return canonical === INTERNAL_ROOT || canonical.startsWith(INTERNAL_PREFIX);
 }

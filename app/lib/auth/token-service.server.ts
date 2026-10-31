@@ -292,12 +292,28 @@ export class TokenService {
     // Generate raw token and hash (auto-issue)
     const s2Token = generateS2Token();
     const tokenHash = await hashToken(s2Token);
-    const expiresAt = new Date(Date.now() + days * 86400_000).toISOString();
+    let expiresAt = new Date(Date.now() + days * 86400_000).toISOString();
 
-    const limitErr = await this.db.withUserWriteTx(this.userId, async (tx) => {
+    const txErr = await this.db.withUserWriteTx(this.userId, async (tx) => {
+      if (auth.type === "token") {
+        const parent = await this.tokenRepo.getOwnedToken(
+          auth.token_id,
+          auth.user_id,
+          tx,
+        );
+        const parentExpiresAt = parent?.expires_at
+          ? new Date(parent.expires_at)
+          : null;
+        if (!parentExpiresAt || parentExpiresAt.getTime() <= Date.now()) {
+          return { code: "no_delegate_permission" as const };
+        }
+        if (parentExpiresAt < new Date(expiresAt)) {
+          expiresAt = parentExpiresAt.toISOString();
+        }
+      }
       const usage = await this.quota.getGrantUsage(auth.user_id, tx);
       if (usage.limit > 0 && usage.count >= usage.limit) {
-        return { limit: usage.limit };
+        return { code: "limit_reached" as const, limit: usage.limit };
       }
       await this.tokenRepo.createToken(
         {
@@ -323,11 +339,18 @@ export class TokenService {
       return null;
     });
 
-    if (limitErr) {
+    if (txErr?.code === "no_delegate_permission") {
+      return {
+        ok: false,
+        code: "no_delegate_permission",
+        message: "Delegating token is no longer active",
+      };
+    }
+    if (txErr) {
       return {
         ok: false,
         code: "limit_reached",
-        message: `Access grant limit reached (${limitErr.limit}). Revoke an existing one to create more.`,
+        message: `Access grant limit reached (${txErr.limit}). Revoke an existing one to create more.`,
       };
     }
 

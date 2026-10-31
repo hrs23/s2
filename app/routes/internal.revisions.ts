@@ -5,10 +5,10 @@
 
 import type { LoaderFunctionArgs } from "react-router";
 import { isNonEmptyPath } from "~/lib/files/paths";
-import { err, mapFileOpError, withAuth } from "~/lib/utils/http.server";
+import { err, mapFileOpError, withUserAuth } from "~/lib/utils/http.server";
 
 export function loader(args: LoaderFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     {},
     async ({ request, auth, services: { fileService } }) => {

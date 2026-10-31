@@ -2,13 +2,17 @@
 // (cookie-only).
 
 import type { LoaderFunctionArgs } from "react-router";
-import { withAuth } from "~/lib/utils/http.server";
+import { withUserAuth } from "~/lib/utils/http.server";
 
 export type { OAuthGrantSummary } from "~/lib/oauth/oauth-service.server";
 
 export function loader(args: LoaderFunctionArgs) {
-  return withAuth(args, {}, async ({ auth, services: { oauthService } }) => {
-    const grants = await oauthService.listGrantsForUser(auth.user_id);
-    return Response.json({ grants });
-  });
+  return withUserAuth(
+    args,
+    {},
+    async ({ auth, services: { oauthService } }) => {
+      const grants = await oauthService.listGrantsForUser(auth.user_id);
+      return Response.json({ grants });
+    },
+  );
 }

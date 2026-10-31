@@ -1,10 +1,10 @@
 // POST /internal/trash/:id/restore — Restore a trash item (cookie-only)
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, withAuth } from "~/lib/utils/http.server";
+import { err, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     { method: "POST" },
     async ({ params, auth, services: { fileService } }) => {

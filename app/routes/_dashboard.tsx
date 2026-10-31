@@ -103,12 +103,14 @@ function SidebarContent({
           storageAvailableBytes={storageAvailableBytes}
         />
         <p className="text-sm text-gray-200 truncate">{user.email}</p>
-        <a
-          href="/logout"
-          className="text-xs text-gray-400 hover:text-white transition-colors"
-        >
-          {t("dashboard.logOut")}
-        </a>
+        <form method="post" action="/logout">
+          <button
+            type="submit"
+            className="text-xs text-gray-400 hover:text-white transition-colors cursor-pointer"
+          >
+            {t("dashboard.logOut")}
+          </button>
+        </form>
       </div>
     </>
   );

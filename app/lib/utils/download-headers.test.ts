@@ -53,6 +53,37 @@ describe("applyDownloadSecurityHeaders", () => {
     ).toBe("attachment");
   });
 
+  it("forces attachment when the content type splits into multiple values", () => {
+    for (const ct of [
+      "application/pdf;,text/html",
+      "image/png, text/html",
+      'application/pdf; x="a",text/html',
+      'application/pdf; x="a\\"",text/html',
+    ]) {
+      const h = applyDownloadSecurityHeaders(
+        new Headers({ "Content-Type": ct }),
+        ct,
+      );
+      expect(h.get("Content-Disposition"), ct).toBe("attachment");
+    }
+  });
+
+  it("keeps a single-value content type unchanged and inline", () => {
+    for (const ct of [
+      "audio/ogg; codecs=opus",
+      'video/webm; codecs="vp9,opus"',
+      "Image/JPEG",
+      "application/pdf; version=1.7",
+    ]) {
+      const h = applyDownloadSecurityHeaders(
+        new Headers({ "Content-Type": ct }),
+        ct,
+      );
+      expect(h.get("Content-Type"), ct).toBe(ct);
+      expect(h.get("Content-Disposition"), ct).toBe("inline");
+    }
+  });
+
   it("treats an unparseable/empty content type as attachment", () => {
     expect(
       applyDownloadSecurityHeaders(new Headers(), "").get(

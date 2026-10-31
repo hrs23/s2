@@ -7,7 +7,7 @@ import type { IQuotaService } from "~/lib/auth/quota-service.server";
 import type { AuthContext } from "~/lib/auth/types";
 import { enqueueStorageTombstone } from "~/lib/cron/storage-gc.server";
 import { sha256Hex } from "~/lib/crypto/hash.server";
-import type { DbClient } from "~/lib/db/client.server";
+import type { DbClient, WithinUserTx } from "~/lib/db/client.server";
 import { TxRollbackError } from "~/lib/db/tx-error";
 import { logError, logWarn } from "~/lib/observability/logger.server";
 import type { StorageAdapter } from "~/lib/storage/adapter";
@@ -76,6 +76,20 @@ export class UploadService {
     private authz: IAuthorizationService,
     private rawStorage: StorageAdapter,
   ) {}
+
+  private async canWriteNode(
+    auth: AuthContext,
+    nodeId: string,
+    tx: WithinUserTx,
+  ): Promise<boolean> {
+    if (auth.type !== "token") return true;
+    const path = await this.repo.reconstructPath(auth.user_id, nodeId, tx);
+    return this.authz.checkAbsolutePath(
+      { ...auth, base_path: auth.base_path.normalize("NFC") },
+      path,
+      "write",
+    );
+  }
 
   // ---- createSession --------------------------------------------------------
 
@@ -187,7 +201,12 @@ export class UploadService {
   ): Promise<
     UploadResult<
       UploadChunkResult,
-      "bad_request" | "not_found" | "conflict" | "expired" | "too_large"
+      | "bad_request"
+      | "not_found"
+      | "forbidden"
+      | "conflict"
+      | "expired"
+      | "too_large"
     >
   > {
     assertServiceUserMatches(auth, this.userId);
@@ -203,6 +222,13 @@ export class UploadService {
       const session = await this.sessions.get(auth.user_id, sessionId, tx);
       if (!session) {
         return SESSION_NOT_FOUND_ERROR;
+      }
+      if (!(await this.canWriteNode(auth, session.nodeId, tx))) {
+        return {
+          ok: false as const,
+          code: "forbidden" as const,
+          message: "Forbidden",
+        };
       }
       if (session.status !== "active") {
         return {
@@ -351,7 +377,12 @@ export class UploadService {
   ): Promise<
     UploadResult<
       CompleteSessionResult,
-      "bad_request" | "not_found" | "conflict" | "expired" | "quota_exceeded"
+      | "bad_request"
+      | "not_found"
+      | "forbidden"
+      | "conflict"
+      | "expired"
+      | "quota_exceeded"
     >
   > {
     assertServiceUserMatches(auth, this.userId);
@@ -471,6 +502,9 @@ export class UploadService {
     // TxRollbackError → triggers ROLLBACK so no partial writes commit.
     const committed = await this.db
       .withUserWriteTx(this.userId, async (tx) => {
+        if (!(await this.canWriteNode(auth, session.nodeId, tx))) {
+          throw new TxRollbackError("forbidden" as const);
+        }
         const acquired = await this.sessions.setStatus(
           sessionId,
           "completed",
@@ -501,6 +535,10 @@ export class UploadService {
         );
       })
       .catch(TxRollbackError.into);
+
+    if (!committed.ok && committed.code === "forbidden") {
+      return { ok: false, code: "forbidden", message: "Forbidden" };
+    }
 
     if (!committed.ok) {
       // tx rolled back — status is still 'active', mark as failed.

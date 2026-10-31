@@ -3,10 +3,10 @@
 // is retained so that access_paths and name stay editable before a re-issue.
 
 import type { ActionFunctionArgs } from "react-router";
-import { err, withAuth } from "~/lib/utils/http.server";
+import { err, withUserAuth } from "~/lib/utils/http.server";
 
 export function action(args: ActionFunctionArgs) {
-  return withAuth(
+  return withUserAuth(
     args,
     {},
     async ({ request, params, auth, services: { tokenService } }) => {

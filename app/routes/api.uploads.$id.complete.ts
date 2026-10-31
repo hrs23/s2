@@ -17,6 +17,7 @@ export function action(args: ActionFunctionArgs) {
         const statusMap = {
           bad_request: 400,
           not_found: 404,
+          forbidden: 403,
           conflict: 409,
           expired: 410,
           quota_exceeded: 413,

@@ -15,6 +15,7 @@ export function createSmtpTransport(config: SmtpConfig): EmailTransport {
     host: config.host,
     port: config.port,
     secure: config.secure,
+    requireTLS: !config.secure,
     auth:
       config.user && config.password
         ? { user: config.user, pass: config.password }
