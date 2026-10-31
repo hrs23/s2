@@ -10,7 +10,7 @@ import pg from "pg";
 import { generateS2Token, hashToken } from "../../app/lib/auth/token.server";
 
 const DB_URL =
-  process.env.DB_URL ?? "postgres://postgres:postgres@localhost:5432/s2";
+  process.env.DB_URL ?? "postgres://postgres:postgres@127.0.0.1:5432/s2";
 const USER_ID = "litmus_user";
 const TOKEN_NAME = "litmus-test";
 

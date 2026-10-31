@@ -28,7 +28,7 @@ export interface AuthState {
 }
 
 const DB_URL =
-  process.env.E2E_DB_URL ?? "postgres://postgres:postgres@localhost:5432/s2";
+  process.env.E2E_DB_URL ?? "postgres://postgres:postgres@127.0.0.1:5432/s2";
 
 /**
  * Warm up the app server by hitting public routes used in e2e tests.

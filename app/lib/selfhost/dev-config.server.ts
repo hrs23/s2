@@ -2,7 +2,7 @@ import { loadDevVars } from "~/lib/dev-vars.server";
 import { readSelfHostConfig, type SelfHostConfig } from "./config.server";
 
 const DEFAULT_DEV_DATABASE_URL =
-  "postgres://postgres:postgres@localhost:5432/s2?sslmode=disable";
+  "postgres://postgres:postgres@127.0.0.1:5432/s2?sslmode=disable";
 
 /** Dev-server config: `.dev.vars` + local Postgres/filesystem defaults. */
 export function readDevSelfHostConfig(): SelfHostConfig {
