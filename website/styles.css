@@ -195,23 +195,6 @@ h1 em {
 h2 {
   font-size: clamp(2rem, 3.6vw, 3.2rem);
 }
-.watch h2,
-.ways h2,
-.faq h2 {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-.demo {
-  margin: 0;
-  background: #fff;
-  border: 1px solid var(--ink);
-  box-shadow: 0.75rem 0.75rem 0 var(--acid);
-}
-.demo video {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .features {
   display: grid;
   gap: clamp(4rem, 8vw, 7rem);
@@ -227,6 +210,9 @@ h2 {
 }
 .feature:nth-child(even) {
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+.ways h2 {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 .feature-copy p {
   margin: 1.2rem 0 0;
@@ -334,48 +320,6 @@ h2 {
     monospace;
 }
 
-.faq {
-  display: grid;
-  grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 1.4fr);
-  gap: clamp(2rem, 6vw, 6rem);
-}
-.faq-list {
-  border-top: 1px solid var(--ink);
-}
-.faq details {
-  border-bottom: 1px solid var(--line);
-}
-.faq summary {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.1rem 0;
-  font-size: 1.1rem;
-  font-weight: 650;
-  cursor: pointer;
-  list-style: none;
-}
-.faq summary::-webkit-details-marker {
-  display: none;
-}
-.faq summary::after {
-  content: "+";
-  font:
-    700 1.2rem / 1 ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    monospace;
-}
-.faq details[open] summary::after {
-  content: "−";
-}
-.faq details p {
-  margin: 0 0 1.2rem;
-  max-width: 40rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
 .button.light {
   color: var(--ink);
   background: var(--acid);
@@ -404,8 +348,7 @@ footer > a:last-child {
   .hero,
   .feature,
   .feature:nth-child(even),
-  .cards,
-  .faq {
+  .cards {
     grid-template-columns: 1fr;
   }
   .hero {
