@@ -220,6 +220,31 @@ h2 {
   font-size: 1.15rem;
   line-height: 1.5;
 }
+.legend {
+  display: flex;
+  gap: 1.2rem;
+}
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font:
+    600 0.85rem / 1 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+.key::before {
+  content: "";
+  width: 1.6rem;
+  height: 3px;
+}
+.key.read::before {
+  background: #0d9488;
+}
+.key.write::before {
+  background: #2563eb;
+}
 .panel {
   background: #faf8f3;
   border: 1px solid var(--ink);
