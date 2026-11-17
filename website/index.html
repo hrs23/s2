@@ -50,8 +50,7 @@
         <div class="scope-copy">
           <p>Example: weekly dinners with an AI agent.</p>
         <figure class="flow">
-          <img src="images/overview.svg" width="660" height="404" alt="A folder tree: wishes, fridge, plan and shopping, each with the tokens that can open it (pencil: read and write, eye: read only); bank and passport are not shared">
-          <figcaption>Pencil: read and write. Eye: read only.</figcaption>
+          <video src="images/demo.mp4" poster="images/demo-poster.jpg" width="1920" height="1080" autoplay muted loop playsinline aria-label="Claude is given two folders: recipes with Read and meal-plan with Read + Write. It writes monday.md to meal-plan, and a write to recipes fails with out_of_scope. Finder and a script connect to their own folders; taxes and passport are not shared with anyone. Claude is then disconnected."></video>
         </figure>
         </div>
       </section>
@@ -93,5 +92,14 @@
       <p class="footer-copy">Self-hosted file storage with folder permissions.</p>
       <a href="https://github.com/hrs23/s2">GitHub</a>
     </footer>
+    <script>
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        for (const v of document.querySelectorAll("video[autoplay]")) {
+          v.pause();
+          v.removeAttribute("autoplay");
+          v.controls = true;
+        }
+      }
+    </script>
   </body>
 </html>
