@@ -127,6 +127,7 @@ h1 em {
   color: var(--muted);
 }
 .actions {
+  margin-top: 2.5rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
