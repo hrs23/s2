@@ -28,61 +28,89 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Self-hosted file storage</p>
-          <h1>Your data.<br>Your server.<br><em>Only the access you grant.</em></h1>
-          <p class="lede">S2 stores your files on a server you run, with permissions per folder for each person, app, and AI agent.</p>
+          <h1>Give your AI only<br><em>the folders it needs.</em></h1>
+          <p class="lede">S2 is file storage you run on your own server. For each person, app, and AI agent, you pick the folders and choose Read or Read + Write. The rest doesn't show up for them.</p>
           <div class="actions">
-            <a class="button primary" href="https://github.com/hrs23/s2#getting-started">Self-host S2 <span aria-hidden="true">→</span></a>
-            <a class="button" href="https://github.com/hrs23/s2">View on GitHub</a>
+            <a class="button primary" href="#run">Run it on your server <span aria-hidden="true">→</span></a>
+            <a class="button" href="https://github.com/hrs23/s2">GitHub</a>
           </div>
         </div>
-
-        <div class="token-window">
-          <div class="window-bar"><span></span><span></span><span></span><strong>API TOKENS</strong></div>
-          <img src="images/tokens.png" width="700" height="1125" alt="The API tokens page: me with access to everything, and kids, ai-agent, family and shopper, each limited to its own folders">
-        </div>
-      </section>
-
-      <section class="scope">
-        <div class="section-heading">
-          <p class="eyebrow">Least privilege, by path</p>
-          <h2>Decide exactly<br>how much to share.</h2>
-        </div>
-        <div class="scope-copy">
-        <figure class="flow">
-          <video src="images/demo.mp4" poster="images/demo-poster.jpg" width="1920" height="1080" autoplay muted loop playsinline aria-label="Claude is given two folders: recipes with Read and meal-plan with Read + Write. It writes monday.md to meal-plan, and a write to recipes fails with out_of_scope. Finder and a script connect to their own folders; taxes and passport are not shared with anyone. Claude is then disconnected."></video>
+        <figure class="demo">
+          <video src="images/demo.mp4" poster="images/demo-poster.jpg" width="1920" height="900" autoplay muted loop playsinline controls aria-label="Claude is given two folders: recipes with Read and meal-plan with Read + Write. It writes monday.md to meal-plan, and a write to recipes fails with out_of_scope. Finder and a script connect to their own folders; taxes and passport are not shared with anyone. Claude is then disconnected."></video>
         </figure>
-        </div>
       </section>
 
-      <section class="interfaces">
+      <section class="ways">
         <div class="section-heading">
-          <p class="eyebrow">One store, familiar tools</p>
-          <h2>Connect without<br>giving everything away.</h2>
+          <p class="eyebrow">Three ways in</p>
+          <h2>One set of folders.<br>The same rules everywhere.</h2>
         </div>
         <div class="cards">
           <article>
-            <span class="card-number">01</span>
-            <h3>AI agents</h3>
-            <p>Connect ChatGPT, Claude, or any MCP client. You approve its folders and permissions in the browser.</p>
+            <img src="images/connect-ai.png" width="960" height="720" alt="The S2 consent page: Authorize Claude, with recipes set to Read and meal-plan set to Read + Write, and Allow and Cancel buttons">
+            <div class="card-body">
+              <span class="card-number">01</span>
+              <h3>AI agents</h3>
+              <p>Add your S2 MCP URL (https://your-server/mcp) in Claude, ChatGPT, or any MCP client. A page opens in your browser. Pick the folders, choose Read or Read + Write, and allow.</p>
+            </div>
           </article>
           <article>
-            <span class="card-number">02</span>
-            <h3>Files & scripts</h3>
-            <p>WebDAV in Finder or Windows Explorer. API tokens for scripts.</p>
+            <img src="images/connect-webdav.png" width="960" height="720" alt="Five folders on the server, and a Finder window that lists only photos">
+            <div class="card-body">
+              <span class="card-number">02</span>
+              <h3>Finder &amp; Explorer</h3>
+              <p>Open S2 as a network drive over WebDAV, with a token as the password. Folders outside that token aren't listed.</p>
+            </div>
           </article>
           <article>
-            <span class="card-number">03</span>
-            <h3>Your software</h3>
-            <p>REST API and OAuth. The same folder permissions everywhere.</p>
+            <img src="images/connect-api.png" width="960" height="720" alt="An API token card: kitchen-app, active until Feb 15, 2027, with meal-plan set to Read and recipes set to Read + Write">
+            <div class="card-body">
+              <span class="card-number">03</span>
+              <h3>Scripts &amp; apps</h3>
+              <p>REST API with tokens. Each token has its own folders and an expiry date.</p>
+            </div>
           </article>
         </div>
       </section>
 
-      <section class="self-host">
-        <p class="eyebrow">Keep the keys</p>
-        <h2>Run it where<br>your data lives.</h2>
-        <p>Docker Compose and PostgreSQL. Files stay on storage you control, stored as plaintext.</p>
-        <a class="button light" href="https://github.com/hrs23/s2#getting-started">Read the setup guide <span aria-hidden="true">→</span></a>
+      <section class="facts">
+        <div class="section-heading">
+          <p class="eyebrow">Before you install</p>
+          <h2>What it does.<br>What it doesn't.</h2>
+        </div>
+        <div class="fact-lists">
+          <div>
+            <h3>Does</h3>
+            <ul>
+              <li>Read, or Read + Write, per folder.</li>
+              <li>Change an AI's folders any time. It applies from the next request.</li>
+              <li>Disconnect an AI and its access stops.</li>
+              <li>Files an AI deletes go to Trash, kept 30 days by default.</li>
+              <li>Every API token expires: 7, 30, or 90 days, a year, or a date you pick.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Doesn't</h3>
+            <ul>
+              <li>No share links.</li>
+              <li>No activity log.</li>
+              <li>No encryption at rest. Files are stored as plaintext on your storage.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="self-host" id="run">
+        <p class="eyebrow">Docker Compose · PostgreSQL · MIT</p>
+        <h2>Run it on your server.</h2>
+        <pre><code>mkdir s2 &amp;&amp; cd s2
+curl -fsSLO https://raw.githubusercontent.com/hrs23/s2/main/compose.yaml
+printf 'AUTH_SECRET=%s\nPOSTGRES_PASSWORD=%s\nAPP_URL=http://localhost:3000\n' \
+  "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" &gt; .env
+docker compose up -d
+docker compose exec app pnpm user create --email owner@example.com</code></pre>
+        <p>The app listens on 127.0.0.1:3000. Put a TLS proxy in front and set <code>APP_URL</code> to its public URL.</p>
+        <a class="button light" href="https://github.com/hrs23/s2#getting-started">Full setup guide <span aria-hidden="true">→</span></a>
       </section>
     </main>
 
@@ -96,7 +124,6 @@
         for (const v of document.querySelectorAll("video[autoplay]")) {
           v.pause();
           v.removeAttribute("autoplay");
-          v.controls = true;
         }
       }
     </script>
