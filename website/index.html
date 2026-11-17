@@ -29,7 +29,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Self-hosted file storage</p>
           <h1>Give your AI only<br><em>the folders it needs.</em></h1>
-          <p class="lede">S2 is file storage you run on your own server. For each person, app, and AI agent, you pick the folders and choose Read or Read + Write. The rest doesn't show up for them.</p>
+          <p class="lede">File storage on your own server. Each person, app, and AI agent sees only the folders you pick.</p>
           <div class="actions">
             <a class="button primary" href="#run">Run it on your server <span aria-hidden="true">→</span></a>
             <a class="button" href="https://github.com/hrs23/s2">GitHub</a>
@@ -51,7 +51,7 @@
             <div class="card-body">
               <span class="card-number">01</span>
               <h3>AI agents</h3>
-              <p>Add your S2 MCP URL (https://your-server/mcp) in Claude, ChatGPT, or any MCP client. A page opens in your browser. Pick the folders, choose Read or Read + Write, and allow.</p>
+              <p>Add your S2 MCP URL in Claude or ChatGPT. Pick the folders in your browser.</p>
             </div>
           </article>
           <article>
@@ -59,7 +59,7 @@
             <div class="card-body">
               <span class="card-number">02</span>
               <h3>Finder &amp; Explorer</h3>
-              <p>Open S2 as a network drive over WebDAV, with a token as the password. Folders outside that token aren't listed.</p>
+              <p>Mount it over WebDAV with a token. Other folders aren't listed.</p>
             </div>
           </article>
           <article>
@@ -67,7 +67,7 @@
             <div class="card-body">
               <span class="card-number">03</span>
               <h3>Scripts &amp; apps</h3>
-              <p>REST API with tokens. Each token has its own folders and an expiry date.</p>
+              <p>REST API. Each token has its own folders and expiry.</p>
             </div>
           </article>
         </div>
@@ -76,25 +76,25 @@
       <section class="facts">
         <div class="section-heading">
           <p class="eyebrow">Before you install</p>
-          <h2>What it does.<br>What it doesn't.</h2>
+          <h2>What's in.<br>What's not.</h2>
         </div>
         <div class="fact-lists">
           <div>
-            <h3>Does</h3>
+            <h3>Included</h3>
             <ul>
-              <li>Read, or Read + Write, per folder.</li>
-              <li>Change an AI's folders any time. It applies from the next request.</li>
-              <li>Disconnect an AI and its access stops.</li>
-              <li>Files an AI deletes go to Trash, kept 30 days by default.</li>
-              <li>Every API token expires: 7, 30, or 90 days, a year, or a date you pick.</li>
+              <li>Read or Read + Write, per folder.</li>
+              <li>Change access any time, no reconnect.</li>
+              <li>Disconnect an AI instantly.</li>
+              <li>AI deletes go to Trash.</li>
+              <li>API tokens always expire.</li>
             </ul>
           </div>
           <div>
-            <h3>Doesn't</h3>
+            <h3>Not included</h3>
             <ul>
-              <li>No share links.</li>
-              <li>No activity log.</li>
-              <li>No encryption at rest. Files are stored as plaintext on your storage.</li>
+              <li>Share links</li>
+              <li>Activity log</li>
+              <li>Encryption at rest</li>
             </ul>
           </div>
         </div>
@@ -109,7 +109,7 @@ printf 'AUTH_SECRET=%s\nPOSTGRES_PASSWORD=%s\nAPP_URL=http://localhost:3000\n' \
   "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" &gt; .env
 docker compose up -d
 docker compose exec app pnpm user create --email owner@example.com</code></pre>
-        <p>The app listens on 127.0.0.1:3000. Put a TLS proxy in front and set <code>APP_URL</code> to its public URL.</p>
+        <p>Put a TLS proxy in front of port 3000.</p>
         <a class="button light" href="https://github.com/hrs23/s2#getting-started">Full setup guide <span aria-hidden="true">→</span></a>
       </section>
     </main>
