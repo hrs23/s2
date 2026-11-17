@@ -119,13 +119,6 @@ h1 em {
   font-style: normal;
   color: var(--blue);
 }
-.lede {
-  max-width: 38rem;
-  margin: 2rem 0;
-  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-  line-height: 1.55;
-  color: var(--muted);
-}
 .actions {
   margin-top: 2.5rem;
   display: flex;
