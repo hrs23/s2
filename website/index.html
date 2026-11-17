@@ -40,9 +40,8 @@
         </div>
       </section>
 
-      <section class="features">
-        <div class="feature">
-          <div class="feature-copy">
+      <section class="split">
+          <div>
             <h2>Granular permissions.</h2>
             <p class="legend"><span class="key read">Read</span><span class="key write">Read + Write</span></p>
           </div>
@@ -52,10 +51,9 @@
 <rect x="430" y="70" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="126" width="180" height="5" fill="#d7ff45"/><text x="446" y="96" class="t-name">Claude</text><text x="446" y="115" class="t-sub">MCP</text><rect x="430" y="182" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="238" width="180" height="5" fill="#d7ff45"/><text x="446" y="208" class="t-name">Finder</text><text x="446" y="227" class="t-sub">WebDAV</text><rect x="430" y="294" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="350" width="180" height="5" fill="#d7ff45"/><text x="446" y="320" class="t-name">my-script</text><text x="446" y="339" class="t-sub">REST API</text>
 <circle r="6" fill="#0d9488" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#pa1"/></animateMotion></circle><circle r="6" fill="#2563eb" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0.6s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#pa2"/></animateMotion></circle><circle r="6" fill="#2563eb" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0.3s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#pa3"/></animateMotion></circle><circle r="6" fill="#0d9488" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="1.1s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#pa4"/></animateMotion></circle>
 </svg></div>
-        </div>
       </section>
 
-      <section class="ways">
+      <section class="split ways">
         <h2>Open standards.</h2>
         <div class="cards">
           <article>
@@ -79,12 +77,7 @@
       <section class="self-host" id="run">
         <p class="eyebrow">MIT · Docker Compose · PostgreSQL</p>
         <h2>Run it where<br>your data lives.</h2>
-        <pre><code>mkdir s2 &amp;&amp; cd s2
-curl -fsSLO https://raw.githubusercontent.com/hrs23/s2/main/compose.yaml
-printf 'AUTH_SECRET=%s\nPOSTGRES_PASSWORD=%s\nAPP_URL=http://localhost:3000\n' \
-  "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" &gt; .env
-docker compose up -d
-docker compose exec app pnpm user create --email owner@example.com</code></pre>
+        <p>Files stay on storage you control, stored as plaintext.</p>
         <a class="button light" href="https://github.com/hrs23/s2#getting-started">Full setup guide <span aria-hidden="true">→</span></a>
       </section>
 

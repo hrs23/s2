@@ -187,34 +187,15 @@ h1 em {
 }
 
 h2 {
-  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
 }
-.features {
+.split {
   display: grid;
-  gap: clamp(4rem, 8vw, 7rem);
-}
-.feature {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: center;
-}
-.feature:nth-child(even) .feature-copy {
-  order: 2;
-}
-.feature:nth-child(even) {
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-}
-.ways h2 {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-.feature-copy p {
-  margin: 1.2rem 0 0;
-  color: var(--muted);
-  font-size: 1.15rem;
-  line-height: 1.5;
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(20rem, 1.2fr);
+  gap: clamp(3rem, 9vw, 9rem);
 }
 .legend {
+  margin: 1.4rem 0 0;
   display: flex;
   gap: 1.2rem;
 }
@@ -324,19 +305,12 @@ h2 {
   padding-left: max(2rem, calc((100vw - 76rem) / 2));
   padding-right: max(2rem, calc((100vw - 76rem) / 2));
 }
-.self-host pre {
-  margin: 2.5rem 0;
-  padding: 1.5rem;
-  max-width: 56rem;
-  overflow-x: auto;
-  background: #2a2b27;
-  border: 1px solid #3c3d37;
-  color: #e8e8e1;
-  font:
-    0.9rem / 1.7 ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    monospace;
+.self-host > p:not(.eyebrow) {
+  max-width: 40rem;
+  color: #bfc0b8;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 2rem 0;
 }
 
 .button.light {
@@ -365,8 +339,7 @@ footer > a:last-child {
 
 @media (max-width: 56rem) {
   .hero,
-  .feature,
-  .feature:nth-child(even),
+  .split,
   .cards {
     grid-template-columns: 1fr;
   }
@@ -375,9 +348,6 @@ footer > a:last-child {
   }
   .window {
     justify-self: start;
-  }
-  .feature:nth-child(even) .feature-copy {
-    order: 0;
   }
 }
 
