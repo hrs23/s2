@@ -28,89 +28,132 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Self-hosted file storage</p>
-          <h1>Give your AI only<br><em>the folders it needs.</em></h1>
-          <p class="lede">File storage on your own server. Each person, app, and AI agent sees only the folders you pick.</p>
+          <h1>Your data.<br>Your server.<br><em>Only the access you grant.</em></h1>
+          <p class="lede">Pick the folders each person, app, and AI agent can open.</p>
           <div class="actions">
             <a class="button primary" href="#run">Run it on your server <span aria-hidden="true">→</span></a>
             <a class="button" href="https://github.com/hrs23/s2">GitHub</a>
           </div>
         </div>
+        <div class="window">
+          <div class="window-bar"><span></span><span></span><span></span><strong>CONNECT AN AI</strong></div>
+          <img src="images/consent.png" width="960" height="720" alt="The S2 consent page: Authorize Claude, with recipes set to Read and meal-plan set to Read + Write">
+        </div>
+      </section>
+
+      <section class="watch">
+        <h2>Watch it work.</h2>
         <figure class="demo">
           <video src="images/demo.mp4" poster="images/demo-poster.jpg" width="1920" height="900" autoplay muted loop playsinline controls aria-label="Claude is given two folders: recipes with Read and meal-plan with Read + Write. It writes monday.md to meal-plan, and a write to recipes fails with out_of_scope. Finder and a script connect to their own folders; taxes and passport are not shared with anyone. Claude is then disconnected."></video>
         </figure>
       </section>
 
-      <section class="ways">
-        <div class="section-heading">
-          <p class="eyebrow">Three ways in</p>
-          <h2>One set of folders.<br>The same rules everywhere.</h2>
+      <section class="features">
+        <div class="feature">
+          <div class="feature-copy">
+            <h2>Each app sees only its folders.</h2>
+            <p>The rest don't even show up.</p>
+          </div>
+          <div class="panel"><svg class="art" viewBox="0 0 640 410" role="img" aria-label="Claude opens recipes and meal-plan, Finder opens photos, a script opens meal-plan. Nobody is connected to taxes or passport.">
+<rect x="36" y="60" width="250" height="48" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 75)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="90" class="t-mono" fill="#191a17">recipes/</text><rect x="36" y="124" width="250" height="48" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 139)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="154" class="t-mono" fill="#191a17">meal-plan/</text><rect x="36" y="188" width="250" height="48" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 203)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="218" class="t-mono" fill="#191a17">photos/</text><rect x="36" y="252" width="250" height="48" fill="#efece4" stroke="#9a988f" stroke-width="1.5"/><g transform="translate(52 267)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="282" class="t-mono" fill="#9a988f">taxes/</text><g transform="translate(258 268)" fill="none" stroke="#9a988f" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="7" width="12" height="9" rx="2"/><path d="M3.5 7V5a3.5 3.5 0 0 1 7 0v2"/></g><rect x="36" y="316" width="250" height="48" fill="#efece4" stroke="#9a988f" stroke-width="1.5"/><g transform="translate(52 331)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="346" class="t-mono" fill="#9a988f">passport/</text><g transform="translate(258 332)" fill="none" stroke="#9a988f" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="7" width="12" height="9" rx="2"/><path d="M3.5 7V5a3.5 3.5 0 0 1 7 0v2"/></g>
+<path id="pa1" d="M430 98 C360 98,356 84,286 84" fill="none" stroke="#0d9488" stroke-width="3"/><path id="pa2" d="M430 98 C360 98,356 148,286 148" fill="none" stroke="#2563eb" stroke-width="3"/><path id="pa3" d="M430 210 C360 210,356 212,286 212" fill="none" stroke="#2563eb" stroke-width="3"/><path id="pa4" d="M430 322 C360 322,356 148,286 148" fill="none" stroke="#0d9488" stroke-width="3"/>
+<rect x="430" y="70" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="126" width="180" height="5" fill="#d7ff45"/><text x="446" y="96" class="t-name">Claude</text><text x="446" y="115" class="t-sub">MCP</text><rect x="430" y="182" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="238" width="180" height="5" fill="#d7ff45"/><text x="446" y="208" class="t-name">Finder</text><text x="446" y="227" class="t-sub">WebDAV</text><rect x="430" y="294" width="180" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="435" y="350" width="180" height="5" fill="#d7ff45"/><text x="446" y="320" class="t-name">my-script</text><text x="446" y="339" class="t-sub">REST API</text>
+<circle r="6" fill="#0d9488" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#pa1"/></animateMotion></circle><circle r="6" fill="#2563eb" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0.6s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#pa2"/></animateMotion></circle><circle r="6" fill="#2563eb" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="0.3s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#pa3"/></animateMotion></circle><circle r="6" fill="#0d9488" stroke="#fff" stroke-width="2"><animateMotion dur="1.8s" begin="1.1s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#pa4"/></animateMotion></circle>
+</svg></div>
         </div>
-        <div class="cards">
-          <article>
-            <img src="images/connect-ai.png" width="960" height="720" alt="The S2 consent page: Authorize Claude, with recipes set to Read and meal-plan set to Read + Write, and Allow and Cancel buttons">
-            <div class="card-body">
-              <span class="card-number">01</span>
-              <h3>AI agents</h3>
-              <p>Add your S2 MCP URL in Claude or ChatGPT. Pick the folders in your browser.</p>
-            </div>
-          </article>
-          <article>
-            <img src="images/connect-webdav.png" width="960" height="720" alt="Five folders on the server, and a Finder window that lists only photos">
-            <div class="card-body">
-              <span class="card-number">02</span>
-              <h3>Finder &amp; Explorer</h3>
-              <p>Mount it over WebDAV with a token. Other folders aren't listed.</p>
-            </div>
-          </article>
-          <article>
-            <img src="images/connect-api.png" width="960" height="720" alt="An API token card: kitchen-app, active until Feb 15, 2027, with meal-plan set to Read and recipes set to Read + Write">
-            <div class="card-body">
-              <span class="card-number">03</span>
-              <h3>Scripts &amp; apps</h3>
-              <p>REST API. Each token has its own folders and expiry.</p>
-            </div>
-          </article>
+        <div class="feature">
+          <div class="feature-copy">
+            <h2>Read, or Read + Write.</h2>
+            <p>Per folder, per app.</p>
+          </div>
+          <div class="panel"><svg class="art" viewBox="0 0 640 360" role="img" aria-label="Claude writes monday.md into meal-plan, which is Read + Write. A write into recipes, which is Read, fails with out_of_scope.">
+<rect x="36" y="70" width="300" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 89)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="104" class="t-mono">recipes/</text><rect x="266" y="85" width="60" height="26" rx="5" fill="#d5f5ef"/><text x="296.0" y="103" class="t-pill" fill="#0f766e" text-anchor="middle">Read</text>
+<rect x="36" y="180" width="300" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 199)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="214" class="t-mono">meal-plan/</text><rect x="208" y="195" width="118" height="26" rx="5" fill="#dbe5ff"/><text x="267.0" y="213" class="t-pill" fill="#1d4ed8" text-anchor="middle">Read + Write</text>
+<rect x="450" y="128" width="160" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="455" y="184" width="160" height="5" fill="#d7ff45"/><text x="466" y="154" class="t-name">Claude</text><text x="466" y="173" class="t-sub">MCP</text>
+<g opacity="0"><rect x="88" y="252" width="150" height="38" fill="#d7ff45" stroke="#191a17" stroke-width="1.5"/><text x="104" y="277" class="t-file">monday.md</text>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.2;0.24;0.8;0.86;1" dur="7s" repeatCount="indefinite"/></g>
+<g opacity="0"><path d="M0 0h14l6 6v20H0z" fill="#fff" stroke="#191a17" stroke-width="2" stroke-linejoin="round"/><path d="M14 0v6h6" fill="none" stroke="#191a17" stroke-width="2"/><animateTransform attributeName="transform" type="translate" values="420 145;420 145;350 195;350 195" keyTimes="0;0.05;0.2;1" dur="7s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.19;0.22;1" dur="7s" repeatCount="indefinite"/></g>
+<g opacity="0"><g><path d="M0 0h14l6 6v20H0z" fill="#fff" stroke="#dc2626" stroke-width="2" stroke-linejoin="round"/><path d="M14 0v6h6" fill="none" stroke="#dc2626" stroke-width="2"/></g><animateTransform attributeName="transform" type="translate" values="420 145;420 145;350 85;372 85;372 85" keyTimes="0;0.37;0.52;0.58;1" dur="7s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.37;0.4;0.56;0.62;1" dur="7s" repeatCount="indefinite"/></g>
+<g opacity="0"><rect x="196" y="28" width="140" height="30" rx="5" fill="#dc2626"/><text x="266" y="48" class="t-pill" fill="#fff" text-anchor="middle">out_of_scope</text>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.52;0.55;0.8;0.84;1" dur="7s" repeatCount="indefinite"/></g>
+</svg></div>
+        </div>
+        <div class="feature">
+          <div class="feature-copy">
+            <h2>Change it anytime.</h2>
+            <p>Edits apply on the next request. Disconnect, and access stops.</p>
+          </div>
+          <div class="panel"><svg class="art" viewBox="0 0 640 360" role="img" aria-label="Claude's access to meal-plan changes from Read to Read + Write, then Claude is disconnected and the line disappears.">
+<rect x="36" y="152" width="250" height="56" fill="#fff" stroke="#191a17" stroke-width="1.5"/><g transform="translate(52 171)"><path d="M0 3a2 2 0 0 1 2-2h6l2 2h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2z" fill="#eef2ff" stroke="#6366f1" stroke-width="1.4"/></g><text x="88" y="186" class="t-mono">meal-plan/</text>
+<path id="pc1" d="M420 180 C360 180,346 180,286 180" fill="none" stroke="#0d9488" stroke-width="3"><animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.28;0.32;0.96;1" dur="8s" repeatCount="indefinite"/></path>
+<path id="pc2" d="M420 180 C360 180,346 180,286 180" fill="none" stroke="#2563eb" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.28;0.32;0.68;0.74;1" dur="8s" repeatCount="indefinite"/></path>
+<circle r="6" fill="#0d9488" stroke="#fff" stroke-width="2" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" keyPoints="1;0;0" keyTimes="0;0.12;1" calcMode="linear"><mpath href="#pc1"/></animateMotion><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.11;0.13;1" dur="8s" repeatCount="indefinite"/></circle>
+<circle r="6" fill="#2563eb" stroke="#fff" stroke-width="2" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;0.38;0.52;1" calcMode="linear"><mpath href="#pc2"/></animateMotion><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.37;0.39;0.51;0.53;1" dur="8s" repeatCount="indefinite"/></circle>
+<g><animate attributeName="opacity" values="1;1;0.45;0.45;1" keyTimes="0;0.7;0.74;0.96;1" dur="8s" repeatCount="indefinite"/>
+<rect x="420" y="112" width="190" height="136" fill="#fff" stroke="#191a17" stroke-width="1.5"/><rect x="425" y="248" width="190" height="5" fill="#d7ff45"/>
+<text x="436" y="140" class="t-name">Claude</text>
+<g><text x="436" y="160" class="t-sub">MCP</text><animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.7;0.72;0.96;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><text x="436" y="160" class="t-sub" fill="#dc2626">Disconnected</text><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.7;0.72;0.96;1" dur="8s" repeatCount="indefinite"/></g>
+<text x="436" y="190" class="t-sub">meal-plan</text>
+<g><rect x="512" y="174" width="50" height="24" rx="5" fill="#d5f5ef"/><text x="537" y="191" class="t-pill" fill="#0f766e" text-anchor="middle">Read</text><animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.26;0.28;0.96;1" dur="8s" repeatCount="indefinite"/></g>
+<g opacity="0"><rect x="512" y="174" width="88" height="24" rx="5" fill="#dbe5ff"/><text x="556" y="191" class="t-pill" fill="#1d4ed8" text-anchor="middle">Read + Write</text><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.26;0.28;0.96;1" dur="8s" repeatCount="indefinite"/></g>
+<rect x="436" y="210" width="96" height="26" rx="5" fill="#dc2626"><animate attributeName="fill" values="#dc2626;#dc2626;#7f1d1d;#dc2626;#dc2626" keyTimes="0;0.66;0.67;0.71;1" dur="8s" repeatCount="indefinite"/></rect>
+<text x="484" y="228" class="t-pill" fill="#fff" text-anchor="middle">Disconnect</text></g>
+</svg></div>
         </div>
       </section>
 
-      <section class="facts">
-        <div class="section-heading">
-          <p class="eyebrow">Before you install</p>
-          <h2>What's in.<br>What's not.</h2>
-        </div>
-        <div class="fact-lists">
-          <div>
-            <h3>Included</h3>
-            <ul>
-              <li>Read or Read + Write, per folder.</li>
-              <li>Change access any time, no reconnect.</li>
-              <li>Disconnect an AI instantly.</li>
-              <li>AI deletes go to Trash.</li>
-              <li>API tokens always expire.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Not included</h3>
-            <ul>
-              <li>Share links</li>
-              <li>Activity log</li>
-              <li>Encryption at rest</li>
-            </ul>
-          </div>
+      <section class="ways">
+        <h2>Use the tools you have.</h2>
+        <div class="cards">
+          <article>
+            <img src="images/connect-ai-manage.png" width="960" height="720" alt="The Connections page: Claude, connected just now, with recipes set to Read and meal-plan set to Read + Write, and Edit and Disconnect buttons">
+            <h3>AI agents</h3>
+            <p>Claude, ChatGPT, any MCP client.</p>
+          </article>
+          <article>
+            <img src="images/connect-webdav.png" width="960" height="720" alt="Five folders on the server, and a Finder window that lists only photos">
+            <h3>Finder &amp; Explorer</h3>
+            <p>Mount it over WebDAV.</p>
+          </article>
+          <article>
+            <img src="images/connect-api.png" width="960" height="720" alt="An API token card: kitchen-app, active until Feb 15, 2027, with meal-plan set to Read and recipes set to Read + Write">
+            <h3>Scripts &amp; apps</h3>
+            <p>REST API with scoped tokens.</p>
+          </article>
         </div>
       </section>
 
       <section class="self-host" id="run">
-        <p class="eyebrow">Docker Compose · PostgreSQL · MIT</p>
-        <h2>Run it on your server.</h2>
+        <p class="eyebrow">MIT · Docker Compose · PostgreSQL</p>
+        <h2>Run it where<br>your data lives.</h2>
         <pre><code>mkdir s2 &amp;&amp; cd s2
 curl -fsSLO https://raw.githubusercontent.com/hrs23/s2/main/compose.yaml
 printf 'AUTH_SECRET=%s\nPOSTGRES_PASSWORD=%s\nAPP_URL=http://localhost:3000\n' \
   "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" &gt; .env
 docker compose up -d
 docker compose exec app pnpm user create --email owner@example.com</code></pre>
-        <p>Put a TLS proxy in front of port 3000.</p>
         <a class="button light" href="https://github.com/hrs23/s2#getting-started">Full setup guide <span aria-hidden="true">→</span></a>
+      </section>
+
+      <section class="faq">
+        <h2>FAQ</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Which AI apps work?</summary>
+            <p>Any MCP client that supports OAuth, such as Claude and ChatGPT.</p>
+          </details>
+          <details>
+            <summary>Can an AI see folders I didn't share?</summary>
+            <p>No. They don't appear in its listings, and opening them is refused.</p>
+          </details>
+          <details>
+            <summary>Are my files encrypted?</summary>
+            <p>Not by S2. Files are stored as plaintext on your storage. Use disk encryption if you need it.</p>
+          </details>
+        </div>
       </section>
     </main>
 
@@ -124,6 +167,10 @@ docker compose exec app pnpm user create --email owner@example.com</code></pre>
         for (const v of document.querySelectorAll("video[autoplay]")) {
           v.pause();
           v.removeAttribute("autoplay");
+        }
+        for (const a of document.querySelectorAll("svg.art")) {
+          a.pauseAnimations();
+          a.setCurrentTime(1.6);
         }
       }
     </script>
